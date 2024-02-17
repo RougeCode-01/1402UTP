@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3553566372731822306}
   - component: {fileID: -2771993056045141260}
   m_Layer: 0
-  m_Name: Square (4)
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,7 +97,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1790940352136905557}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 5227052f5aa9b2f46afb634bdc5f785d, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -147,6 +147,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f40d74a3107c8f40a14cb33fbacaa09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 12
+  moveSmoothness: 0.2
+  jumpForce: 8
+  maxJumps: 1
+  jumps: 0
+  playerGravity: 5
 --- !u!114 &-2771993056045141260
 MonoBehaviour:
   m_ObjectHideFlags: 0
