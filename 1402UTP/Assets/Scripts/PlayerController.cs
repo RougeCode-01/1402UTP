@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     Vector2 movementInput;
     Rigidbody2D rb;
     Collider2D col;
+    SpriteRenderer sp;
 
     #region Serialized Fields
     [SerializeField]
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     bool isGrounded;
     bool isJumping = false;
+    bool facingDirection = true; //false = left, true = right
 
     /*
     ====================================
@@ -50,6 +52,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        sp = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
     }
@@ -69,11 +72,23 @@ public class PlayerController : MonoBehaviour
             jumps = maxJumps;
         }
         //Debug.Log("ISGROUNDED = " + isGrounded);
+        UpdatePlayerDirection();
+    }
 
+    public void UpdatePlayerDirection()
+    {
+        if (!facingDirection) //if player is not facing right then flip, otherwise don't
+            sp.flipX = true;
+        else
+            sp.flipX = false;
     }
     public void HandleMovementInput(Vector2 movement)
     {
         movementInput.x = movement.x;
+        if (movement.x == 1)            //player presses right, face right
+            facingDirection = true;
+        else if (movement.x == -1)      //player press left, face left
+            facingDirection = false;
     }
     private float HorizontalMovement()
     {
