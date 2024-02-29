@@ -98,11 +98,35 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded || jumps > 0) //check for doublejump
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce); //this could be way better! the player's ascent is really slow, experiment with making it snappy like the descent!
-            isGrounded = false;
-            isJumping = true;
-            jumps --;
+            // Normal jump if grounded or having jumps left
+            Jump();
         }
+        else if (WallCheck()) // Check if the player is in contact with a wall
+        {
+            // Jump from wall
+            WallJump();
+        }
+    }
+
+    private void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce); // Perform jump
+        isGrounded = false; // Update grounded status
+        isJumping = true; // Update jumping status
+        jumps--; // Decrease jump count if applicable
+    }
+
+    private void WallJump()
+    {
+        // Direction of the wall jump depends on the player's facing direction
+        float wallJumpDirection = facingDirection ? -1f : 1f;
+
+        // Apply force for the wall jump
+        Vector2 jumpForceVector = new Vector2(wallJumpDirection * moveSpeed, jumpForce);
+        rb.velocity = jumpForceVector;
+        rb.AddForce(jumpForceVector, ForceMode2D.Impulse); // Apply impulse force
+        isJumping = true; // Update jumping status
+        jumps--; // Decrease jump count if applicable
     }
     public void JumpCancel()
     {
@@ -159,10 +183,25 @@ public class PlayerController : MonoBehaviour
         #endregion
         return raycastHit.collider != null;
     }
-    
+
     bool WallCheck()
     {
-        return false;
+        BoxCollider2D boxCollider2D = GetComponent<BoxCollider2D>();
+        float extraWidth = 0.05f; // Adjust this value as needed for better detection
+
+        // Calculate the size of the overlap box
+        Vector2 boxSize = new Vector2(extraWidth * 2f, boxCollider2D.bounds.size.y);
+
+        // Calculate the center position of the overlap box on the left and right sides of the player
+        Vector2 leftBoxCenter = (Vector2)transform.position + Vector2.left * (boxCollider2D.bounds.extents.x + extraWidth);
+        Vector2 rightBoxCenter = (Vector2)transform.position + Vector2.right * (boxCollider2D.bounds.extents.x + extraWidth);
+
+        // Check for overlaps with colliders on the left and right sides
+        Collider2D leftCollider = Physics2D.OverlapBox(leftBoxCenter, boxSize, 0f, LayerMask.GetMask("Ground"));
+        Collider2D rightCollider = Physics2D.OverlapBox(rightBoxCenter, boxSize, 0f, LayerMask.GetMask("Ground"));
+
+        // Return true if either side has a collider, indicating a wall contact
+        return leftCollider != null || rightCollider != null;
     }
 
 }

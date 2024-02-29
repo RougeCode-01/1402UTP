@@ -327,6 +327,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: maxJumps
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3567335869579067227, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
       propertyPath: m_CollisionDetection
       value: 1
