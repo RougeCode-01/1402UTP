@@ -122,6 +122,11 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForFixedUpdate();
     }
 
+    public void HandleDashInput()
+    {
+        //broil
+    }
+
     private float VerticalMovement()
     {
         float jumpVelocity = rb.velocity.y;
@@ -153,6 +158,11 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(boxCollider2D.bounds.center - new Vector3(boxCollider2D.bounds.extents.x, boxCollider2D.bounds.extents.y - extraHeight), Vector2.right * 2f * (boxCollider2D.bounds.extents.x), rayColor);
         #endregion
         return raycastHit.collider != null;
+    }
+    
+    bool WallCheck()
+    {
+        return false;
     }
 
 }
