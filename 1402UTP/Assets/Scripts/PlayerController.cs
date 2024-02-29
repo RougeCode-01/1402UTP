@@ -154,5 +154,10 @@ public class PlayerController : MonoBehaviour
         #endregion
         return raycastHit.collider != null;
     }
+    
+    bool WallCheck()
+    {
+        return false;
+    }
 
 }
