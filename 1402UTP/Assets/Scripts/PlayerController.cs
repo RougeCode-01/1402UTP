@@ -19,10 +19,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     int maxJumps = 1, jumps; //DoubleJump variable, serializable in case we ever want to give the player multiple for whatever reason
     [SerializeField]
+    int maxDashes = 1, dashes;
+    [SerializeField]
+    float dashForce = 50f;
+    [SerializeField]
     float playerGravity = 15f;
     #endregion
     #region Private/Protected Variables
-    //nothing here yet
+    private float directionMultiplier;
     #endregion
 
     bool isGrounded;
@@ -70,9 +74,11 @@ public class PlayerController : MonoBehaviour
         if(isGrounded) //If grounded, give the player back their doublejump
         {
             jumps = maxJumps;
+            dashes = maxDashes;
         }
         //Debug.Log("ISGROUNDED = " + isGrounded);
         UpdatePlayerDirection();
+        directionMultiplier = facingDirection ? 1f : -1f; //float multiplier based on player's facing direction - used for walljump/dash thrusts
     }
 
     public void UpdatePlayerDirection()
@@ -118,11 +124,8 @@ public class PlayerController : MonoBehaviour
 
     private void WallJump()
     {
-        // Direction of the wall jump depends on the player's facing direction
-        float wallJumpDirection = facingDirection ? -1f : 1f;
-
         // Apply force for the wall jump
-        Vector2 jumpForceVector = new Vector2(wallJumpDirection * moveSpeed, jumpForce);
+        Vector2 jumpForceVector = new Vector2(-directionMultiplier * moveSpeed, jumpForce * 2/3);
         rb.velocity = jumpForceVector;
         rb.AddForce(jumpForceVector, ForceMode2D.Impulse); // Apply impulse force
         isJumping = true; // Update jumping status
@@ -148,7 +151,19 @@ public class PlayerController : MonoBehaviour
 
     public void HandleDashInput()
     {
-        //broil
+        if (isGrounded)
+        {
+            Vector2 dashVector = new Vector2((dashForce * 2/3) * directionMultiplier, 0f);
+            rb.AddForce(dashVector, ForceMode2D.Impulse);
+        }
+        else if (!isGrounded && dashes > 0)
+        {
+            Vector2 dashVector = new Vector2(dashForce * directionMultiplier, 5f);
+            rb.AddForce(dashVector, ForceMode2D.Impulse);
+            isJumping = false;
+            StartCoroutine(JumpCanceler());
+            dashes--;
+        }
     }
 
     private float VerticalMovement()
