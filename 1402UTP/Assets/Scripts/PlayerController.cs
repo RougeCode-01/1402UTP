@@ -122,6 +122,11 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForFixedUpdate();
     }
 
+    public void HandleDashInput()
+    {
+        //broil
+    }
+
     private float VerticalMovement()
     {
         float jumpVelocity = rb.velocity.y;
