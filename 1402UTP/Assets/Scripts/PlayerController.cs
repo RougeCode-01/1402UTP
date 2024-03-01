@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     Vector2 movementInput;
     Rigidbody2D rb;
     Collider2D col;
+    SpriteRenderer sp;
 
     #region Serialized Fields
     [SerializeField]
@@ -18,14 +19,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     int maxJumps = 1, jumps; //DoubleJump variable, serializable in case we ever want to give the player multiple for whatever reason
     [SerializeField]
+    int maxDashes = 1, dashes;
+    [SerializeField]
+    float dashForce = 50f;
+    [SerializeField]
     float playerGravity = 15f;
     #endregion
     #region Private/Protected Variables
-    //nothing here yet
+    private float directionMultiplier;
     #endregion
 
     bool isGrounded;
     bool isJumping = false;
+    bool facingDirection = true; //false = left, true = right
 
     /*
     ====================================
@@ -50,6 +56,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        sp = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
     }
@@ -67,13 +74,27 @@ public class PlayerController : MonoBehaviour
         if(isGrounded) //If grounded, give the player back their doublejump
         {
             jumps = maxJumps;
+            dashes = maxDashes;
         }
         //Debug.Log("ISGROUNDED = " + isGrounded);
+        UpdatePlayerDirection();
+        directionMultiplier = facingDirection ? 1f : -1f; //float multiplier based on player's facing direction - used for walljump/dash thrusts
+    }
 
+    public void UpdatePlayerDirection()
+    {
+        if (!facingDirection) //if player is not facing right then flip, otherwise don't
+            sp.flipX = true;
+        else
+            sp.flipX = false;
     }
     public void HandleMovementInput(Vector2 movement)
     {
         movementInput.x = movement.x;
+        if (movement.x == 1)            //player presses right, face right
+            facingDirection = true;
+        else if (movement.x == -1)      //player press left, face left
+            facingDirection = false;
     }
     private float HorizontalMovement()
     {
@@ -83,11 +104,32 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded || jumps > 0) //check for doublejump
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce); //this could be way better! the player's ascent is really slow, experiment with making it snappy like the descent!
-            isGrounded = false;
-            isJumping = true;
-            jumps --;
+            // Normal jump if grounded or having jumps left
+            Jump();
         }
+        else if (WallCheck()) // Check if the player is in contact with a wall
+        {
+            // Jump from wall
+            WallJump();
+        }
+    }
+
+    private void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce); // Perform jump
+        isGrounded = false; // Update grounded status
+        isJumping = true; // Update jumping status
+        jumps--; // Decrease jump count if applicable
+    }
+
+    private void WallJump()
+    {
+        // Apply force for the wall jump
+        Vector2 jumpForceVector = new Vector2(-directionMultiplier * moveSpeed, jumpForce * 2/3);
+        rb.velocity = jumpForceVector;
+        rb.AddForce(jumpForceVector, ForceMode2D.Impulse); // Apply impulse force
+        isJumping = true; // Update jumping status
+        jumps--; // Decrease jump count if applicable
     }
     public void JumpCancel()
     {
@@ -105,6 +147,23 @@ public class PlayerController : MonoBehaviour
         if (currentY == 0.0f)                                                       //(this should mean it takes ~4 fixedupdates to set it to 0? i think)
             StopCoroutine(JumpCanceler());                                      //once the player's y velocity is 0, 
         yield return new WaitForFixedUpdate();
+    }
+
+    public void HandleDashInput()
+    {
+        if (isGrounded)
+        {
+            Vector2 dashVector = new Vector2((dashForce * 2/3) * directionMultiplier, 0f);
+            rb.AddForce(dashVector, ForceMode2D.Impulse);
+        }
+        else if (!isGrounded && dashes > 0)
+        {
+            Vector2 dashVector = new Vector2(dashForce * directionMultiplier, 5f);
+            rb.AddForce(dashVector, ForceMode2D.Impulse);
+            isJumping = false;
+            StartCoroutine(JumpCanceler());
+            dashes--;
+        }
     }
 
     private float VerticalMovement()
@@ -138,6 +197,26 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(boxCollider2D.bounds.center - new Vector3(boxCollider2D.bounds.extents.x, boxCollider2D.bounds.extents.y - extraHeight), Vector2.right * 2f * (boxCollider2D.bounds.extents.x), rayColor);
         #endregion
         return raycastHit.collider != null;
+    }
+
+    bool WallCheck()
+    {
+        BoxCollider2D boxCollider2D = GetComponent<BoxCollider2D>();
+        float extraWidth = 0.05f; // Adjust this value as needed for better detection
+
+        // Calculate the size of the overlap box
+        Vector2 boxSize = new Vector2(extraWidth * 2f, boxCollider2D.bounds.size.y);
+
+        // Calculate the center position of the overlap box on the left and right sides of the player
+        Vector2 leftBoxCenter = (Vector2)transform.position + Vector2.left * (boxCollider2D.bounds.extents.x + extraWidth);
+        Vector2 rightBoxCenter = (Vector2)transform.position + Vector2.right * (boxCollider2D.bounds.extents.x + extraWidth);
+
+        // Check for overlaps with colliders on the left and right sides
+        Collider2D leftCollider = Physics2D.OverlapBox(leftBoxCenter, boxSize, 0f, LayerMask.GetMask("Ground"));
+        Collider2D rightCollider = Physics2D.OverlapBox(rightBoxCenter, boxSize, 0f, LayerMask.GetMask("Ground"));
+
+        // Return true if either side has a collider, indicating a wall contact
+        return leftCollider != null || rightCollider != null;
     }
 
 }
