@@ -17,7 +17,7 @@ public class CinemachineCameraOffset : MonoBehaviour
     {
         transposer = cinemachineCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         originalOffset = transposer.m_TrackedObjectOffset;
-        offsetWhenFlipped = transposer.m_TrackedObjectOffset * -1;
+        offsetWhenFlipped = transposer.m_TrackedObjectOffset * -1; // why did i not do this in the first place
     }
 
     void Update()
