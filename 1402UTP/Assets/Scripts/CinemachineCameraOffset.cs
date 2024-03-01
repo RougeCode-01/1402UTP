@@ -13,6 +13,9 @@ public class CinemachineCameraOffset : MonoBehaviour
     private CinemachineFramingTransposer transposer;
     private Vector3 originalOffset;
 
+    //todo
+    //reimplement camera limits
+
     void Start()
     {
         transposer = cinemachineCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
