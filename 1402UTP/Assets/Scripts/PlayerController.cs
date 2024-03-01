@@ -17,9 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     int jumpForce = 500;
     [SerializeField]
-    int maxJumps = 1, jumps; //DoubleJump variable, serializable in case we ever want to give the player multiple for whatever reason
-    [SerializeField]
-    int maxDashes = 1, dashes;
+    int maxAirActions = 1, airActions; //DoubleJump variable, serializable in case we ever want to give the player multiple for whatever reason
     [SerializeField]
     float dashForce = 50f;
     [SerializeField]
@@ -27,6 +25,7 @@ public class PlayerController : MonoBehaviour
     #endregion
     #region Private/Protected Variables
     private float directionMultiplier;
+    private int defaultJumpForce;
     #endregion
 
     bool isGrounded;
@@ -41,10 +40,8 @@ public class PlayerController : MonoBehaviour
     -Adjust basic movement until it feels GOOD
     -Adjust camera options until it feels GOOD
 
-    ==IMPORTANT BUT NOT AS IMPORTANT I GUESS:
-    -Add dashing, airdashing 
-    -Add walljumps, wall collision check
-    -Grappling hook 
+    ==LOW PRIORITY:
+    -idk
 
     */
 
@@ -59,6 +56,7 @@ public class PlayerController : MonoBehaviour
         sp = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        defaultJumpForce = jumpForce;
     }
 
     // Update is called once per frame
@@ -71,10 +69,10 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = new Vector2(HorizontalMovement(), VerticalMovement()); //Movement system imported from Lecture 6
         isGrounded = GroundCheck();
-        if(isGrounded) //If grounded, give the player back their doublejump
+        if(isGrounded) //If grounded, reset air actions and jump force
         {
-            jumps = maxJumps;
-            dashes = maxDashes;
+            jumpForce = defaultJumpForce;
+            airActions = maxAirActions;
         }
         //Debug.Log("ISGROUNDED = " + isGrounded);
         UpdatePlayerDirection();
@@ -102,15 +100,16 @@ public class PlayerController : MonoBehaviour
     }
     public void HandleJumpInput()
     {
-        if (isGrounded || jumps > 0) //check for doublejump
-        {
-            // Normal jump if grounded or having jumps left
-            Jump();
-        }
-        else if (WallCheck()) // Check if the player is in contact with a wall
+        if (WallCheck() && !isGrounded) // Check if the player is in contact with a wall
         {
             // Jump from wall
             WallJump();
+        }
+        else if (isGrounded || airActions > 0) //check for walljump
+        {
+            // Normal jump if grounded or having jumps left
+            Jump();
+            jumpForce = jumpForce * (2 / 3);
         }
     }
 
@@ -119,17 +118,17 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, jumpForce); // Perform jump
         isGrounded = false; // Update grounded status
         isJumping = true; // Update jumping status
-        jumps--; // Decrease jump count if applicable
+        airActions--; // Decrease jump count if applicable
     }
 
     private void WallJump()
     {
         // Apply force for the wall jump
-        Vector2 jumpForceVector = new Vector2(-directionMultiplier * moveSpeed, jumpForce * 2/3);
+        Vector2 jumpForceVector = new Vector2(-directionMultiplier * moveSpeed, defaultJumpForce * 2/3);
         rb.velocity = jumpForceVector;
         rb.AddForce(jumpForceVector, ForceMode2D.Impulse); // Apply impulse force
         isJumping = true; // Update jumping status
-        jumps--; // Decrease jump count if applicable
+        airActions = maxAirActions;
     }
     public void JumpCancel()
     {
@@ -156,13 +155,13 @@ public class PlayerController : MonoBehaviour
             Vector2 dashVector = new Vector2((dashForce * 2/3) * directionMultiplier, 0f);
             rb.AddForce(dashVector, ForceMode2D.Impulse);
         }
-        else if (!isGrounded && dashes > 0)
+        else if (!isGrounded && airActions > 0)
         {
-            Vector2 dashVector = new Vector2(dashForce * directionMultiplier, 5f);
+            Vector2 dashVector = new Vector2(dashForce * directionMultiplier, 10f);
             rb.AddForce(dashVector, ForceMode2D.Impulse);
             isJumping = false;
             StartCoroutine(JumpCanceler());
-            dashes--;
+            airActions--;
         }
     }
 
