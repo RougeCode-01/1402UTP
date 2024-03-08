@@ -15,17 +15,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float moveSmoothness = 0.5f;
     [SerializeField]
-    int jumpForce = 500;
+    int jumpForce = 500, defaultJumpForce;
     [SerializeField]
     int maxAirActions = 1, airActions; //DoubleJump variable, serializable in case we ever want to give the player multiple for whatever reason
     [SerializeField]
     float dashForce = 50f;
     [SerializeField]
-    float playerGravity = 15f;
+    float fallMultiplier = 15f;
+    [SerializeField]
+    float playerGravity = 1f;
+    float playerGravityDefault;
+    [SerializeField]
+    float rateOfGravityChange = 0.05f;
     #endregion
     #region Private/Protected Variables
     private float directionMultiplier;
-    private int defaultJumpForce;
     #endregion
 
     bool isGrounded;
@@ -57,6 +61,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         defaultJumpForce = jumpForce;
+        playerGravityDefault = playerGravity;
     }
 
     // Update is called once per frame
@@ -73,6 +78,11 @@ public class PlayerController : MonoBehaviour
         {
             jumpForce = defaultJumpForce;
             airActions = maxAirActions;
+            playerGravity = playerGravityDefault;
+        }
+        else if (!isGrounded)
+        {
+            ApplyGravity();
         }
         //Debug.Log("ISGROUNDED = " + isGrounded);
         UpdatePlayerDirection();
@@ -119,6 +129,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = false; // Update grounded status
         isJumping = true; // Update jumping status
         airActions--; // Decrease jump count if applicable
+        playerGravity = playerGravityDefault;
     }
 
     private void WallJump()
@@ -129,6 +140,7 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(jumpForceVector, ForceMode2D.Impulse); // Apply impulse force
         isJumping = true; // Update jumping status
         airActions = maxAirActions;
+        playerGravity = playerGravityDefault;
     }
     public void JumpCancel()
     {
@@ -162,6 +174,7 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
             StartCoroutine(JumpCanceler());
             airActions--;
+            playerGravity = playerGravityDefault;
         }
     }
 
@@ -170,13 +183,19 @@ public class PlayerController : MonoBehaviour
         float jumpVelocity = rb.velocity.y;
         if (jumpVelocity < 0.2f)
         {
-            jumpVelocity += Physics2D.gravity.y * (playerGravity) * Time.fixedDeltaTime;
+            jumpVelocity += Physics2D.gravity.y * (fallMultiplier) * Time.fixedDeltaTime;
         }
         else if (jumpVelocity > 0 && !isJumping)
         {
-            jumpVelocity += Physics2D.gravity.y * (playerGravity * 2) * Time.fixedDeltaTime;
+            jumpVelocity += Physics2D.gravity.y * (fallMultiplier * 2) * Time.fixedDeltaTime;
         }
         return jumpVelocity;
+    }
+
+    private void ApplyGravity()
+    {
+        playerGravity = playerGravity - rateOfGravityChange;
+        rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + playerGravity);
     }
 
     bool GroundCheck() //magic groundcheck raycast from the lecture. we can repurpose this for walljump colliders if we place two on the sides of the player!

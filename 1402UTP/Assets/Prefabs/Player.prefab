@@ -131,7 +131,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
@@ -152,10 +152,13 @@ MonoBehaviour:
   moveSpeed: 12
   moveSmoothness: 0.2
   jumpForce: 8
+  defaultJumpForce: 0
   maxAirActions: 1
   airActions: 0
   dashForce: 50
-  playerGravity: 5
+  fallMultiplier: 3
+  playerGravity: 1
+  rateOfGravityChange: 0.2
 --- !u!114 &-2771993056045141260
 MonoBehaviour:
   m_ObjectHideFlags: 0
