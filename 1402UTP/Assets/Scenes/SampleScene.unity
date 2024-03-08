@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &77664717 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1790940352136905557, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+  m_PrefabInstance: {fileID: 1299905000}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &260556809
 GameObject:
   m_ObjectHideFlags: 3
@@ -435,7 +440,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 886720925}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.65, y: 6.493761, z: -16}
+  m_LocalPosition: {x: -13.65, y: 5.87376, z: -16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -460,7 +465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 70677738304771655, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.57
+      value: 4.95
       objectReference: {fileID: 0}
     - target: {fileID: 70677738304771655, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2138,6 +2143,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1250865094787534424, guid: f1c8e1f782d3f0945928f21531bed8bd, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 77664717}
+    - target: {fileID: 1250865094787534424, guid: f1c8e1f782d3f0945928f21531bed8bd, type: 3}
+      propertyPath: loadDelay
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 1250865094787534426, guid: f1c8e1f782d3f0945928f21531bed8bd, type: 3}
       propertyPath: m_RootOrder
       value: 5

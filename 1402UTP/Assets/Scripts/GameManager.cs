@@ -2,28 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Video;
-
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] float loadDelay = 1.0f;
-    // Start is called before the first frame update
+    public GameObject player; // Reference to the player GameObject
+    private Vector3 initialPlayerPosition;
+
+    void Start()
+    {
+        // Store the initial position of the player
+        initialPlayerPosition = player.transform.position;
+    }
+
+    void Update()
+    {
+        // Check if the player's Y position is below 0.00
+        if (player.transform.position.y < 0.00f)
+        {
+            RespawnPlayer(); // Respawn the player
+        }
+    }
+
+    // Respawn the player
+    private void RespawnPlayer()
+    {
+        // Reset player position to the initial position
+        player.transform.position = initialPlayerPosition;
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            Invoke("ReloadScene", loadDelay);
+            Invoke("NextScene", loadDelay);
         }
     }
 
-    private void ReloadScene()
-    {
-        SceneManager.LoadScene(0);
-    }
     private void NextScene()
     {
-        //SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0); // Reloads the same scene for now
     }
 }
