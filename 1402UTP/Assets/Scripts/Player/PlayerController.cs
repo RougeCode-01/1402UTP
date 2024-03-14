@@ -40,12 +40,6 @@ public class PlayerController : MonoBehaviour
     bool isJumping = false;
     bool facingDirection = true; //false = left, true = right
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     private void Awake()
     {
         sp = GetComponent<SpriteRenderer>();
@@ -53,12 +47,6 @@ public class PlayerController : MonoBehaviour
         col = GetComponent<Collider2D>();
         defaultJumpForce = jumpForce;
         playerGravityDefault = playerGravity;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private void FixedUpdate()
