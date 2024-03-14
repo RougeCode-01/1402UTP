@@ -455,6 +455,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1506652317, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 17402c3c83fe82d4cb4cee3719f192fe, type: 2}
+    - target: {fileID: 1506652317, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506652317, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506652317, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506652317, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506652317, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506652317, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 49242187318679785, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 49242187318679785, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 49242187318679785, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 70677738304771655, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -508,12 +548,32 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: moveSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: maxFallVelocity
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: accelerationRate
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
       propertyPath: rateOfGravityChange
       value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3567335869579067227, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
       propertyPath: m_GravityScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5059254584029893046, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: grappleSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5059254584029893046, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+      propertyPath: retractSpeed
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}

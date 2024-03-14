@@ -27,6 +27,10 @@ public class PlayerController : MonoBehaviour
     float playerGravityDefault;
     [SerializeField]
     float rateOfGravityChange = 0.05f;
+    [SerializeField]
+    float maxFallVelocity = -20f; // Maximum fall velocity
+    [SerializeField]
+    float accelerationRate = 0.5f; // Rate of acceleration
     #endregion
     #region Private/Protected Variables
     private float directionMultiplier;
@@ -36,23 +40,10 @@ public class PlayerController : MonoBehaviour
     bool isJumping = false;
     bool facingDirection = true; //false = left, true = right
 
-    /*
-    ====================================
-    TO-DO - PlayerController
-    ====================================
-    ==CONSTANT TOP PRIORITIES:
-    -Adjust basic movement until it feels GOOD
-    -Adjust camera options until it feels GOOD
-
-    ==LOW PRIORITY:
-    -idk
-
-    */
-
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     private void Awake()
@@ -74,7 +65,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = new Vector2(HorizontalMovement(), VerticalMovement()); //Movement system imported from Lecture 6
         isGrounded = GroundCheck();
-        if(isGrounded) //If grounded, reset air actions and jump force
+        if (isGrounded) //If grounded, reset air actions and jump force
         {
             jumpForce = defaultJumpForce;
             airActions = maxAirActions;
@@ -96,18 +87,21 @@ public class PlayerController : MonoBehaviour
         else
             sp.flipX = false;
     }
+
     public void HandleMovementInput(Vector2 movement)
     {
-        movementInput.x = movement.x;
+        movementInput.x = Mathf.Lerp(movementInput.x, movement.x * moveSpeed, accelerationRate * Time.fixedDeltaTime); // Apply acceleration
         if (movement.x == 1)            //player presses right, face right
             facingDirection = true;
         else if (movement.x == -1)      //player press left, face left
             facingDirection = false;
     }
+
     private float HorizontalMovement()
     {
-        return Mathf.Lerp(rb.velocity.x, movementInput.x * moveSpeed, moveSmoothness);
+        return Mathf.Lerp(rb.velocity.x, movementInput.x, moveSmoothness);
     }
+
     public void HandleJumpInput()
     {
         if (WallCheck() && !isGrounded) // Check if the player is in contact with a wall
@@ -135,13 +129,14 @@ public class PlayerController : MonoBehaviour
     private void WallJump()
     {
         // Apply force for the wall jump
-        Vector2 jumpForceVector = new Vector2(-directionMultiplier * moveSpeed, defaultJumpForce * 2/3);
+        Vector2 jumpForceVector = new Vector2(-directionMultiplier * moveSpeed, defaultJumpForce * 2 / 3);
         rb.velocity = jumpForceVector;
         rb.AddForce(jumpForceVector, ForceMode2D.Impulse); // Apply impulse force
         isJumping = true; // Update jumping status
         airActions = maxAirActions;
         playerGravity = playerGravityDefault;
     }
+
     public void JumpCancel()
     {
         if (rb.velocity.y > 0) //makes sure the player isn't cancelling their momentum while already falling
@@ -150,6 +145,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(JumpCanceler());
         }
     }
+
     IEnumerator JumpCanceler() //smooth jump cancel
     {
         float currentY = rb.velocity.y;
@@ -164,7 +160,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
-            Vector2 dashVector = new Vector2((dashForce * 2/3) * directionMultiplier, 0f);
+            Vector2 dashVector = new Vector2((dashForce * 2 / 3) * directionMultiplier, 0f);
             rb.AddForce(dashVector, ForceMode2D.Impulse);
         }
         else if (!isGrounded && airActions > 0)
@@ -189,6 +185,10 @@ public class PlayerController : MonoBehaviour
         {
             jumpVelocity += Physics2D.gravity.y * (fallMultiplier * 2) * Time.fixedDeltaTime;
         }
+
+        // Clamp fall velocity
+        jumpVelocity = Mathf.Clamp(jumpVelocity, maxFallVelocity, float.MaxValue);
+
         return jumpVelocity;
     }
 
@@ -206,9 +206,9 @@ public class PlayerController : MonoBehaviour
         #region Debug BoxCast Visual
         Color rayColor;
         if (raycastHit.collider)
-            {
+        {
             rayColor = Color.red;
-            }
+        }
         else
             rayColor = Color.green;
         Debug.DrawRay(boxCollider2D.bounds.center - new Vector3(boxCollider2D.bounds.extents.x, boxCollider2D.bounds.extents.y + extraHeight), Vector2.right * 2f * (boxCollider2D.bounds.extents.x), rayColor);
