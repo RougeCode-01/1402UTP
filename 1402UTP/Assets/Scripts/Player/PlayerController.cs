@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Collider2D col;
     SpriteRenderer sp;
+    TrailRenderer tr;
 
     #region Serialized Fields
     [SerializeField]
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
     float playerGravityDefault;
     [SerializeField]
     float rateOfGravityChange = 0.05f;
+    [SerializeField]
+    float trailFXDelay = 2;
     #endregion
     #region Private/Protected Variables
     private float directionMultiplier;
@@ -34,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
     bool isGrounded;
     bool isJumping = false;
+    bool isDashing = false; // added a dash bool
     bool facingDirection = true; //false = left, true = right
 
     /*
@@ -46,13 +50,16 @@ public class PlayerController : MonoBehaviour
 
     ==LOW PRIORITY:
     -idk
+    -add visual effects (fix dash trail, add step dust)
+    -sound effects?
+    -wow, i hate that dash code
 
     */
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        tr.enabled = false;
     }
 
     private void Awake()
@@ -60,6 +67,7 @@ public class PlayerController : MonoBehaviour
         sp = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        tr = GetComponent<TrailRenderer>();
         defaultJumpForce = jumpForce;
         playerGravityDefault = playerGravity;
     }
@@ -67,7 +75,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     private void FixedUpdate()
@@ -160,15 +168,35 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForFixedUpdate();
     }
 
+    IEnumerator Dashtrail()
+    {
+        // This is cheap and dirty. Buggy. Best implementation could maybe check if player is grounded before turning off the trail, giving a "speed jump" effect.
+        if (isDashing)
+        {
+            tr.enabled = true;
+            yield return new WaitForSeconds(tr.time * trailFXDelay);
+            tr.enabled = false;
+            isDashing = false;
+        }
+        else
+        {
+            tr.enabled = false;
+        }
+    }
+
     public void HandleDashInput()
     {
         if (isGrounded)
         {
+            isDashing = true;
+            StartCoroutine(Dashtrail());
             Vector2 dashVector = new Vector2((dashForce * 2/3) * directionMultiplier, 0f);
             rb.AddForce(dashVector, ForceMode2D.Impulse);
         }
         else if (!isGrounded && airActions > 0)
         {
+            isDashing = true;
+            StartCoroutine(Dashtrail());
             Vector2 dashVector = new Vector2(dashForce * directionMultiplier, 10f);
             rb.AddForce(dashVector, ForceMode2D.Impulse);
             isJumping = false;
