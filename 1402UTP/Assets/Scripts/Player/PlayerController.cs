@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     Collider2D col;
     SpriteRenderer sp;
     TrailRenderer tr;
+    GameManager gm;
 
     #region Serialized Fields
     [SerializeField]
@@ -72,6 +74,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         tr = GetComponent<TrailRenderer>(); // added trail renderer
+        gm = FindObjectOfType<GameManager>();
         defaultJumpForce = jumpForce;
         playerGravityDefault = playerGravity;
     }
@@ -271,5 +274,18 @@ public class PlayerController : MonoBehaviour
         // Return true if either side has a collider, indicating a wall contact
         return leftCollider != null || rightCollider != null;
     }
-
+    /*private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Enemy")
+        {
+            gm.Invoke("RespawnPlayer", 0.1f);
+        }
+    }*/
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Enemy>())
+        {
+            gm.Invoke("RespawnPlayer", 0.1f);
+        }
+    }
 }

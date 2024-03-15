@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,12 +11,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] float maxFallDistance = -4.0f;
     [SerializeField] float Timer;
     public GameObject player; // Reference to the player GameObject
+    PlayerController pc;
     private Vector3 initialPlayerPosition;
     
     void Start()
     {
         // Store the initial position of the player
         initialPlayerPosition = player.transform.position;
+        pc = player.GetComponent<PlayerController>();
+
     }
 
     void Update()
@@ -27,7 +32,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Respawn the player
-    private void RespawnPlayer()
+    public void RespawnPlayer()
     {
         // Reset player position to the initial position
         player.transform.position = initialPlayerPosition;
