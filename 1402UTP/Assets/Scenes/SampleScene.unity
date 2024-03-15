@@ -128,6 +128,71 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1790940352136905557, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
   m_PrefabInstance: {fileID: 1299905000}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &116621202
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3143519380283987058, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -8.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381445580468, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381761628603, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_Name
+      value: Enemy_Vertical (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381761628604, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381761628604, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381761628604, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 12.465325
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381761628604, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381761628604, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381761628604, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381761628604, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381761628604, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381761628604, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381761628604, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143519381761628604, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
 --- !u!1 &260556809
 GameObject:
   m_ObjectHideFlags: 3
@@ -303,7 +368,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.46764863, g: 0.8773585, b: 0.57170194, a: 1}
+  m_Color: {r: 0.20000002, g: 0.97647065, b: 0.6313726, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2382,7 +2447,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3143519381761628603, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
       propertyPath: m_Name
-      value: Horizontal Enemy
+      value: Enemy_Vertical
       objectReference: {fileID: 0}
     - target: {fileID: 3143519381761628604, guid: 2a1e4b79cabfc904f83211bf710dbac8, type: 3}
       propertyPath: m_RootOrder
@@ -2439,7 +2504,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2007822189016494932, guid: e0628a3f4c03ba041a04b56bb91b5724, type: 3}
       propertyPath: m_Name
-      value: PatrolEnemy
+      value: Enemy_Patrol
       objectReference: {fileID: 0}
     - target: {fileID: 8953094791075729687, guid: e0628a3f4c03ba041a04b56bb91b5724, type: 3}
       propertyPath: m_RootOrder

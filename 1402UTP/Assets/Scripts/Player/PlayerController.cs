@@ -63,8 +63,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tr.enabled = false;
-
+        tr.enabled = false; //Disables dash trail on start
     }
 
     private void Awake()
@@ -72,15 +71,9 @@ public class PlayerController : MonoBehaviour
         sp = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
-        tr = GetComponent<TrailRenderer>();
+        tr = GetComponent<TrailRenderer>(); // added trail renderer
         defaultJumpForce = jumpForce;
         playerGravityDefault = playerGravity;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void FixedUpdate()
