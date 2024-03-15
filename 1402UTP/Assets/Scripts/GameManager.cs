@@ -9,10 +9,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] float maxFallDistance = -4.0f;
     [SerializeField] int LevelSelect = 0;
     public GameObject player; // Reference to the player GameObject
+    public Collider2D finishLineCol;
+    public Collider2D checkpointCol;
     private Vector3 initialPlayerPosition;
-    private Vector3 checkpoinPosition;
 
-
+    /*
+    TODO
+    Check if the player collides with the checkpoint and set the respawn to the checkpoint
+    Chack if the player collides with the finish line and if they do send them to the next level
+    */
     
     void Start()
     {
