@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1250865094787534426}
-  - component: {fileID: 1250865094787534424}
   - component: {fileID: 1250865094787534425}
+  - component: {fileID: 626401574}
   m_Layer: 0
   m_Name: Finish
   m_TagString: Untagged
@@ -35,19 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1250865094787534424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1250865094787534427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcb4502acf72820429546a491c146ce3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadDelay: 1
 --- !u!61 &1250865094787534425
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -74,6 +61,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2461605, y: 2.6599674}
   m_EdgeRadius: 0
+--- !u!114 &626401574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250865094787534427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcb4502acf72820429546a491c146ce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadDelay: 0.01
+  maxFallDistance: -4
+  LevelSelect: 2
+  player: {fileID: 1790940352136905557, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
 --- !u!1 &1250865095598700867
 GameObject:
   m_ObjectHideFlags: 0

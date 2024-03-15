@@ -7,9 +7,12 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] float loadDelay = 1.0f;
     [SerializeField] float maxFallDistance = -4.0f;
-    [SerializeField] float Timer;
+    [SerializeField] int LevelSelect = 0;
     public GameObject player; // Reference to the player GameObject
     private Vector3 initialPlayerPosition;
+    private Vector3 checkpoinPosition;
+
+
     
     void Start()
     {
@@ -43,6 +46,6 @@ public class GameManager : MonoBehaviour
 
     private void NextScene()
     {
-        SceneManager.LoadScene(0); // Reloads the same scene for now
+        SceneManager.LoadScene(LevelSelect); // Reloads the same scene for now
     }
 }
