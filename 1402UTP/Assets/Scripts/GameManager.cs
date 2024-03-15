@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] float loadDelay = 1.0f;
     [SerializeField] float maxFallDistance = -4.0f;
+    [SerializeField] float Timer;
     public GameObject player; // Reference to the player GameObject
     private Vector3 initialPlayerPosition;
     
