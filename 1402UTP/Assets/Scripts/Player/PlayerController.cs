@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     SpriteRenderer sp;
     TrailRenderer tr;
     GameManager gm;
+    ParticleSystem ps;
 
     #region Serialized Fields
     [SerializeField]
@@ -75,6 +77,7 @@ public class PlayerController : MonoBehaviour
         col = GetComponent<Collider2D>();
         tr = GetComponent<TrailRenderer>(); // added trail renderer
         gm = FindObjectOfType<GameManager>();
+        ps = GetComponent<ParticleSystem>();
         defaultJumpForce = jumpForce;
         playerGravityDefault = playerGravity;
     }
@@ -285,7 +288,17 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Enemy>())
         {
-            gm.Invoke("RespawnPlayer", 0.1f);
+            rb.velocity = new Vector2(0,0);
+            rb.simulated = false;
+            sp.enabled = false;
+            tr.enabled = false;
+            GetComponent<GrappleGun>().enabled = false;
+            GetComponent<PlayerController>().enabled = false;
+            GetComponent<BoxCollider2D>().enabled = false;
+            GetComponent<LineRenderer>().enabled = false;
+            GetComponent<PlayerInputController>().enabled = false;
+            ps.Play();
+            gm.Invoke("RespawnPlayer", 2f);
         }
     }
 }

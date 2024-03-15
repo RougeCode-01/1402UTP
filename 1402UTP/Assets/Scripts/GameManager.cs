@@ -36,6 +36,13 @@ public class GameManager : MonoBehaviour
     {
         // Reset player position to the initial position
         player.transform.position = initialPlayerPosition;
+        player.GetComponent<SpriteRenderer>().enabled = true;
+        player.GetComponent<BoxCollider2D>().enabled = true;
+        player.GetComponent<GrappleGun>().enabled = true;
+        player.GetComponent<LineRenderer>().enabled = true;
+        player.GetComponent<Rigidbody2D>().simulated = true;
+        player.GetComponent<PlayerInputController>().enabled = true;
+        pc.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
