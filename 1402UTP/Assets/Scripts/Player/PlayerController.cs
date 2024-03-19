@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     TrailRenderer tr;
     GameManager gm;
     ParticleSystem ps;
+    AudioSource sfx;
 
     #region Serialized Fields
     [SerializeField]
@@ -78,6 +79,7 @@ public class PlayerController : MonoBehaviour
         tr = GetComponent<TrailRenderer>(); // added trail renderer
         gm = FindObjectOfType<GameManager>();
         ps = GetComponent<ParticleSystem>();
+        sfx = GetComponent<AudioSource>();
         defaultJumpForce = jumpForce;
         playerGravityDefault = playerGravity;
     }
@@ -288,6 +290,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Enemy>())
         {
+            sfx.Play();
             rb.velocity = new Vector2(0,0);
             rb.simulated = false;
             sp.enabled = false;

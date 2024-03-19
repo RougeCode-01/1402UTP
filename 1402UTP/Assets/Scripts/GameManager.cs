@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public void RespawnPlayer()
     {
         // Reset player position to the initial position
+        // yandev.jpg
         player.transform.position = initialPlayerPosition;
         player.GetComponent<SpriteRenderer>().enabled = true;
         player.GetComponent<BoxCollider2D>().enabled = true;
