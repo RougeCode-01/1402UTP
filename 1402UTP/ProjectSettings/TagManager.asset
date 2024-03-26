@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Enemy
   - Music
+  - HUD
+  - Checkpoint
+  - FinishLine
+  - StartPoint
   layers:
   - Default
   - TransparentFX
