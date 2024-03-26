@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
     public void HandleMovementInput(Vector2 movement)
     {
-        movementInput.x = Mathf.Lerp(movementInput.x, movement.x * moveSpeed, accelerationRate * Time.fixedDeltaTime); // Apply acceleration
+        movementInput.x = movement.x;//Mathf.Lerp(movementInput.x, movement.x * moveSpeed, accelerationRate * Time.fixedDeltaTime); // Apply acceleration
         if (movement.x == 1)            //player presses right, face right
             facingDirection = true;
         else if (movement.x == -1)      //player press left, face left
@@ -122,7 +122,18 @@ public class PlayerController : MonoBehaviour
 
     private float HorizontalMovement()
     {
-        return Mathf.Lerp(rb.velocity.x, movementInput.x, moveSmoothness);
+        if (movementInput.x == 0)
+        {
+            return Mathf.Lerp(rb.velocity.x, movementInput.x, moveSmoothness);
+        }
+        float acceleration = movementInput.x / rb.velocity.x >= 0 ? accelerationRate : accelerationRate * 10;
+        if (!isGrounded)
+        {
+            acceleration /= 2f;
+        }
+        float velocity = rb.velocity.x + movementInput.x * Time.fixedDeltaTime * acceleration;
+        Mathf.Clamp(velocity, -moveSpeed, moveSpeed);
+        return velocity;
     }
 
     public void HandleJumpInput()

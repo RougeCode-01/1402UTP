@@ -899,7 +899,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
       propertyPath: moveSpeed
-      value: 15
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
       propertyPath: maxFallVelocity
@@ -907,7 +907,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
       propertyPath: accelerationRate
-      value: 100
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
       propertyPath: rateOfGravityChange
