@@ -21,19 +21,6 @@ public class GrappleGun : MonoBehaviour
 
     void Update()
     {
-        // Check for mouse input to start or stop grappling
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!isGrappling)
-            {
-                StartGrapple(); // Start grappling if not already grappling
-            }
-            else
-            {
-                StopGrapple(); // Stop grappling if already grappling
-            }
-        }
-
         if (isGrappling)
         {
             // Move the player towards the grapple point
@@ -57,7 +44,19 @@ public class GrappleGun : MonoBehaviour
         }
     }
 
-    void StartGrapple()
+    public void StartOrStopGrapple() // Renamed method to reflect its purpose
+    {
+        if (!isGrappling)
+        {
+            StartGrapple();
+        }
+        else
+        {
+            StopGrapple();
+        }
+    }
+
+    public void StartGrapple() // Made public
     {
         // Shoot a raycast to find a surface to grapple onto
         RaycastHit2D hit = Physics2D.Raycast(rb.position, Vector2.up, Mathf.Infinity, grappleMask);
@@ -77,7 +76,7 @@ public class GrappleGun : MonoBehaviour
         }
     }
 
-    void StopGrapple()
+    public void StopGrapple() // Made public
     {
         // Remove the SpringJoint2D component to stop grappling
         Destroy(joint);

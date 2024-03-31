@@ -859,42 +859,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
-      propertyPath: Dashtrail
-      value: 
-      objectReference: {fileID: 1299905015}
-    - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
-      propertyPath: jumpForce
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
-      propertyPath: moveSpeed
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
-      propertyPath: maxFallVelocity
-      value: -30
-      objectReference: {fileID: 0}
-    - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
-      propertyPath: accelerationRate
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3553566372731822306, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
-      propertyPath: rateOfGravityChange
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3567335869579067227, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5059254584029893046, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
-      propertyPath: grappleSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5059254584029893046, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
-      propertyPath: retractSpeed
-      value: 20
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
 --- !u!4 &1299905001 stripped

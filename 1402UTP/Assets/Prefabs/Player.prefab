@@ -165,7 +165,7 @@ MonoBehaviour:
   rateOfGravityChange: 0.15
   trailFXDelay: 2
   maxFallVelocity: -30
-  accelerationRate: 100
+  accelerationRate: 50
 --- !u!114 &-2771993056045141260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,8 +190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c27521e9d17181b409f6989dce84d271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grappleSpeed: 10
-  retractSpeed: 20
+  grappleSpeed: 25
+  retractSpeed: 50
   grappleMask:
     serializedVersion: 2
     m_Bits: 8
