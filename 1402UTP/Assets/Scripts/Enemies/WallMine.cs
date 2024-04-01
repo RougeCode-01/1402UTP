@@ -67,7 +67,7 @@ public class WallMine : Enemy
 
     void DetonateIfPlayerClose()
     {
-        Debug.Log("Checking for player...");
+        Debug.Log("Mine enemy is checking for player...");
 
         // Perform a circle cast around the mine to detect the player
         RaycastHit2D hit = Physics2D.CircleCast(transform.position, detonateRadius, Vector2.zero, 0f, playerLayer);
@@ -86,7 +86,7 @@ public class WallMine : Enemy
         }
         else
         {
-            Debug.Log("Player not detected.");
+            Debug.Log("Player not detected by mine enemy.");
         }
     }
 
