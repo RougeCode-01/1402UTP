@@ -62,8 +62,9 @@ public class GameManager : MonoBehaviour
         player.GetComponent<GrappleGun>().enabled = true;
         player.GetComponent<LineRenderer>().enabled = true;
         player.GetComponent<Rigidbody2D>().simulated = true;
-        player.GetComponent<PlayerInputController>().enabled = true;
+        //player.GetComponent<PlayerInputController>().enabled = true;
         pc.enabled = true;
+        pc.isDead = false;
         // Reset player position to the initial position or the last checkpoint if reached
         if (checkpointReached)
         {
@@ -97,6 +98,7 @@ public class GameManager : MonoBehaviour
     private void NextScene()
     {
         // Load the next level or reload the same scene
+        LevelSelect++;
         SceneManager.LoadScene(LevelSelect); // Reloads the same scene for now
         Collectible.totalcoin = 0;
     }

@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     bool isJumping = false;
     bool isDashing = false; // added a dash bool
     bool facingDirection = true; //false = left, true = right
+    public bool isDead = false;
 
     /*
     ====================================
@@ -89,13 +90,13 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = new Vector2(HorizontalMovement(), VerticalMovement()); //Movement system imported from Lecture 6
         isGrounded = GroundCheck();
-        if (isGrounded) //If grounded, reset air actions and jump force
+        if (isGrounded && !isDead) //If grounded, reset air actions and jump force
         {
             jumpForce = defaultJumpForce;
             airActions = maxAirActions;
             playerGravity = playerGravityDefault;
         }
-        else if (!isGrounded)
+        else if (!isGrounded && !isDead)
         {
             ApplyGravity();
         }
@@ -123,12 +124,12 @@ public class PlayerController : MonoBehaviour
 
     private float HorizontalMovement()
     {
-        if (movementInput.x == 0)
+        if (movementInput.x == 0 && !isDead)
         {
             return Mathf.Lerp(rb.velocity.x, movementInput.x, moveSmoothness);
         }
         float acceleration = movementInput.x / rb.velocity.x >= 0 ? accelerationRate : accelerationRate * 10;
-        if (!isGrounded)
+        if (!isGrounded && !isDead)
         {
             acceleration /= 2f;
         }
@@ -298,7 +299,7 @@ public class PlayerController : MonoBehaviour
             gm.Invoke("RespawnPlayer", 0.1f);
         }
     }*/
-    private void OnCollisionEnter2D(Collision2D collision)
+   private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<Enemy>())
         {
@@ -307,11 +308,12 @@ public class PlayerController : MonoBehaviour
             rb.simulated = false;
             sp.enabled = false;
             tr.enabled = false;
+            isDead = true;
             GetComponent<GrappleGun>().enabled = false;
             GetComponent<PlayerController>().enabled = false;
             GetComponent<BoxCollider2D>().enabled = false;
             GetComponent<LineRenderer>().enabled = false;
-            GetComponent<PlayerInputController>().enabled = false;
+            //GetComponent<PlayerInputController>().enabled = false;
             ps.Play();
             gm.Invoke("RespawnPlayer", 2f);
         }

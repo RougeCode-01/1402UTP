@@ -49,3 +49,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: TileBackground
+    uniqueID: 2284647369
+    locked: 0
+  - name: TileMiddleground
+    uniqueID: 802171567
+    locked: 0
+  - name: TileForeground
+    uniqueID: 744609311
+    locked: 0
+  - name: GameObjects
+    uniqueID: 1204011675
+    locked: 0
