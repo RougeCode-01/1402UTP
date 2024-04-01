@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
     private void NextScene()
     {
         // Load the next level or reload the same scene
+        LevelSelect++;
         SceneManager.LoadScene(LevelSelect); // Reloads the same scene for now
     }
 }

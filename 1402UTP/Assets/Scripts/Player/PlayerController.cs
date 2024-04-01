@@ -298,7 +298,7 @@ public class PlayerController : MonoBehaviour
             gm.Invoke("RespawnPlayer", 0.1f);
         }
     }*/
-    private void OnCollisionEnter2D(Collision2D collision)
+   /* private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<Enemy>())
         {
@@ -315,5 +315,5 @@ public class PlayerController : MonoBehaviour
             ps.Play();
             gm.Invoke("RespawnPlayer", 2f);
         }
-    }
+    }*/
 }
