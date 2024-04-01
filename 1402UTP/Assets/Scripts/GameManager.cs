@@ -98,5 +98,6 @@ public class GameManager : MonoBehaviour
     {
         // Load the next level or reload the same scene
         SceneManager.LoadScene(LevelSelect); // Reloads the same scene for now
+        Collectible.totalcoin = 0;
     }
 }
