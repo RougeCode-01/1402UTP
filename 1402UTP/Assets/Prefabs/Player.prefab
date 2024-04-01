@@ -166,6 +166,7 @@ MonoBehaviour:
   trailFXDelay: 2
   maxFallVelocity: -30
   accelerationRate: 50
+  isDead: 0
 --- !u!114 &-2771993056045141260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +204,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1790940352136905557}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -234,8 +235,8 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1204011675
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -5099,8 +5100,8 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1204011675
+  m_SortingLayer: 4
   m_SortingOrder: -1
   m_Time: 0.2
   m_Parameters:
