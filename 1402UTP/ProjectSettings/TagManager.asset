@@ -10,6 +10,8 @@ TagManager:
   - Checkpoint
   - FinishLine
   - StartPoint
+  - Audio
+  - Bar
   layers:
   - Default
   - TransparentFX
