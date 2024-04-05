@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WallMine : Enemy
 {
     public GameObject pointA;
     public GameObject pointB;
+    public BoxCollider2D col;
     public Rigidbody2D rb;
     public SpriteRenderer sp;
+    public ParticleSystem ps;
     public Animator anim;
     public float speed = 2f;
     private Transform currentTarget;
@@ -15,11 +18,14 @@ public class WallMine : Enemy
     public float detonateDelay = 1.5f; // Delay before detonation after detecting player
     public LayerMask playerLayer; // Layer mask for the player
     public string playerTag = "Player"; // Tag of the player object
+    public float colWidth, colHight;
 
     private bool playerDetected = false;
 
     void Start()
     {
+        ps = GetComponent<ParticleSystem>();
+        col = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sp = GetComponent<SpriteRenderer>();
@@ -102,7 +108,9 @@ public class WallMine : Enemy
         }
 
         Debug.Log("Detonation!");
-        Destroy(gameObject); 
+        col.edgeRadius = 3;
+        ps.Play();
+        Destroy(gameObject, 3.0f); 
     }
 
     private void Flip()
