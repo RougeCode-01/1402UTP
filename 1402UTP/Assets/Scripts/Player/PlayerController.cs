@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     #region Serialized Fields
     [SerializeField]
     int moveSpeed = 500;
+    int moveSpeedDefault;
     [SerializeField]
     float moveSmoothness = 0.5f;
     [SerializeField]
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
     bool isJumping = false;
     bool isDashing = false; // added a dash bool
+    bool airDashFlag = false; //this is very gross, but i am very tired
     bool facingDirection = true; //false = left, true = right
     public bool isDead = false;
 
@@ -84,17 +86,23 @@ public class PlayerController : MonoBehaviour
         sfx = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         defaultJumpForce = jumpForce;
         playerGravityDefault = playerGravity;
+        moveSpeedDefault = moveSpeed;
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(HorizontalMovement(), VerticalMovement()); //Movement system imported from Lecture 6
+        rb.velocity = new Vector2(Mathf.Clamp(HorizontalMovement(), -moveSpeed, moveSpeed), VerticalMovement()); //Movement system imported from Lecture 6
         isGrounded = GroundCheck();
         if (isGrounded && !isDead) //If grounded, reset air actions and jump force
         {
             jumpForce = defaultJumpForce;
             airActions = maxAirActions;
             playerGravity = playerGravityDefault;
+            if (airDashFlag)
+            {
+                airDashFlag = false;
+                DashSpeedReset();
+            }
         }
         else if (!isGrounded && !isDead)
         {
@@ -214,6 +222,8 @@ public class PlayerController : MonoBehaviour
         {
             isDashing = true;
             StartCoroutine(Dashtrail());
+            moveSpeed = moveSpeed * 2;
+            Invoke("DashSpeedReset", 0.5f);
             Vector2 dashVector = new Vector2((dashForce * 2 / 3) * directionMultiplier, 0f);
             rb.AddForce(dashVector, ForceMode2D.Impulse);
         }
@@ -221,6 +231,8 @@ public class PlayerController : MonoBehaviour
         {
             isDashing = true;
             StartCoroutine(Dashtrail());
+            moveSpeed = Math.Clamp(moveSpeed * 2, moveSpeed, moveSpeedDefault * 2);
+            airDashFlag = true;
             Vector2 dashVector = new Vector2(dashForce * directionMultiplier, 10f);
             rb.AddForce(dashVector, ForceMode2D.Impulse);
             isJumping = false;
@@ -228,6 +240,14 @@ public class PlayerController : MonoBehaviour
             airActions--;
             playerGravity = playerGravityDefault;
         }
+    }
+
+    private void DashSpeedReset() 
+    {
+        if (airDashFlag) //this check is so that if the player does a grounded dash into an air dash, they don't have their speed reset.
+            return;
+        else
+            moveSpeed = moveSpeedDefault;
     }
 
     private float VerticalMovement()
