@@ -20,7 +20,7 @@ public class WallMine : Enemy
     public string playerTag = "Player"; // Tag of the player object
     public float colWidth, colHight;
 
-    private bool playerDetected = false;
+    private bool isActive = true;
 
     void Start()
     {
@@ -35,14 +35,7 @@ public class WallMine : Enemy
     void Update()
     {
         DetonateIfPlayerClose();
-        if (!playerDetected)
-        {
-            MoveBetweenPoints();
-        }
-        else
-        {
-            DetonateIfPlayerClose();
-        }
+        MoveBetweenPoints();
     }
 
     void MoveBetweenPoints()
@@ -60,13 +53,12 @@ public class WallMine : Enemy
         // Check if close to the target point
         if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f && currentTarget == pointB.transform)
         {
-            Flip();
             currentTarget = pointA.transform;
         }
         // Check if close to the target point
-        if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f && currentTarget == pointA.transform)
+       if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f && currentTarget == pointA.transform)
         {
-            Flip();
+    
             currentTarget = pointB.transform;
         }
     }
@@ -86,7 +78,6 @@ public class WallMine : Enemy
         if (hit.collider != null && hit.collider.CompareTag(playerTag))
         {
             // Player detected, start detonation countdown
-            playerDetected = true;
             StartCoroutine(DetonateAfterDelay());
             Debug.Log("Player detected by mine!");
         }
@@ -109,8 +100,19 @@ public class WallMine : Enemy
 
         Debug.Log("Detonation!");
         col.edgeRadius = 3;
-        ps.Play();
-        Destroy(gameObject, 3.0f); 
+        //ps.Play();
+        Invoke("Deactivate", 2.0f);
+    }
+    void Deactivate()
+    {
+        gameObject.SetActive(false);
+        isActive = false;
+    }
+
+    void Activate()
+    {
+        gameObject.SetActive(true);
+        isActive = true;
     }
 
     private void Flip()
