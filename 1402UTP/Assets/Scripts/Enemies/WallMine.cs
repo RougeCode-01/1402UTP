@@ -21,7 +21,12 @@ public class WallMine : Enemy
     public float colWidth, colHight;
 
     private bool isActive = true;
-
+    /*ToDO
+     * Reactivate after detonation
+     * When counting down change the color like a pulse
+     * Fix the particle
+     * add animation
+    */ 
     void Start()
     {
         ps = GetComponent<ParticleSystem>();
@@ -97,11 +102,10 @@ public class WallMine : Enemy
             yield return new WaitForSeconds(0.1f);
             remainingTime -= 0.1f;
         }
-
         Debug.Log("Detonation!");
         col.edgeRadius = 3;
-        //ps.Play();
-        Invoke("Deactivate", 2.0f);
+        ps.Play();
+        Invoke("Deactivate", 1.5f);
     }
     void Deactivate()
     {
@@ -113,10 +117,5 @@ public class WallMine : Enemy
     {
         gameObject.SetActive(true);
         isActive = true;
-    }
-
-    private void Flip()
-    {
-        sp.flipY = !sp.flipY;
     }
 }

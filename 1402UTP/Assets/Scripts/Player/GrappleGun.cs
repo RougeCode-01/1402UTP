@@ -44,7 +44,7 @@ public class GrappleGun : MonoBehaviour
         }
     }
 
-    public void StartOrStopGrapple() // Renamed method to reflect its purpose
+    public void StartOrStopGrapple()
     {
         if (!isGrappling)
         {
@@ -56,7 +56,7 @@ public class GrappleGun : MonoBehaviour
         }
     }
 
-    public void StartGrapple() // Made public
+    public void StartGrapple() 
     {
         // Shoot a raycast to find a surface to grapple onto
         RaycastHit2D hit = Physics2D.Raycast(rb.position, Vector2.up, Mathf.Infinity, grappleMask);
