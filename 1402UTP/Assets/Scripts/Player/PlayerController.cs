@@ -222,7 +222,7 @@ public class PlayerController : MonoBehaviour
         {
             isDashing = true;
             StartCoroutine(Dashtrail());
-            moveSpeed = moveSpeed * 2;
+            moveSpeed = Math.Clamp(moveSpeed * 2, moveSpeed, moveSpeedDefault * 2);
             Invoke("DashSpeedReset", 0.5f);
             Vector2 dashVector = new Vector2((dashForce * 2 / 3) * directionMultiplier, 0f);
             rb.AddForce(dashVector, ForceMode2D.Impulse);
@@ -270,7 +270,7 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyGravity()
     {
-        playerGravity = playerGravity - rateOfGravityChange;
+        playerGravity = Mathf.Clamp(playerGravity - rateOfGravityChange, -10f, 1f); //note to self, remove magic numbers
         rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + playerGravity);
     }
 
