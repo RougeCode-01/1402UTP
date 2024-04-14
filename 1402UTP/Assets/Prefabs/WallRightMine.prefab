@@ -218,7 +218,7 @@ MonoBehaviour:
   col: {fileID: 0}
   rb: {fileID: 123313200402393110}
   sp: {fileID: 123313200402393111}
-  ps: {fileID: 0}
+  particleSystem: {fileID: 5891125841378523298}
   anim: {fileID: 0}
   speed: 3
   detonateRadius: 1.5
@@ -227,8 +227,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   playerTag: Player
-  colWidth: 3
-  colHight: 3
+  proximityThreshold: 0.5
 --- !u!198 &5891125841378523298
 ParticleSystem:
   m_ObjectHideFlags: 0
