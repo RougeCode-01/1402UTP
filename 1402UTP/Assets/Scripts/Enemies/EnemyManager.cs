@@ -1,27 +1,18 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    public WallMine wallMine;
-    public float reactivationDelay = 5f;
-
+    // Start is called before the first frame update
     void Start()
     {
-        // Start the coroutine to reactivate the WallMine after delay
-        StartCoroutine(ReactivateWallMineAfterDelay());
+        
     }
 
-    IEnumerator ReactivateWallMineAfterDelay()
+    // Update is called once per frame
+    void Update()
     {
-        yield return new WaitForSecondsRealtime(reactivationDelay);
-        ReactivateWallMine();
-    }
-
-    void ReactivateWallMine()
-    {
-        wallMine.gameObject.SetActive(true);
-        wallMine.isActive = true;
-        Debug.Log("WallMine reactivated. isActive: " + wallMine.isActive);
+        
     }
 }
