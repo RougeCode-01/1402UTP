@@ -146,11 +146,12 @@ MonoBehaviour:
   sfxSource: {fileID: 2892373175567725921}
   bgm: {fileID: 8300000, guid: 749e296448f69f24f9bd482989db46e3, type: 3}
   die: {fileID: 8300000, guid: 3d79922e846b82c49b844849d3ff0823, type: 3}
-  land: {fileID: 0}
-  dash: {fileID: 0}
-  checkpoint: {fileID: 0}
-  portal: {fileID: 0}
-  shoot: {fileID: 0}
+  land: {fileID: 8300000, guid: d52fcd378066ff7498faa205f799d59a, type: 3}
+  dash: {fileID: 8300000, guid: b7bb1d42464f08244a91a4852ced3236, type: 3}
+  checkpoint: {fileID: 8300000, guid: 0068d8eed7f79104aa6120fc073fd45e, type: 3}
+  portal: {fileID: 8300000, guid: 5f2cb9f70c076dc4cad259a74f8a8ece, type: 3}
+  shoot: {fileID: 8300000, guid: 68abd402f8de70445aa104e55af061bf, type: 3}
+  coin: {fileID: 8300000, guid: 4f1aacec47f1d444992979a739157715, type: 3}
 --- !u!82 &2892373175567725923
 AudioSource:
   m_ObjectHideFlags: 0

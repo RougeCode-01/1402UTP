@@ -35444,6 +35444,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2892373175567725922, guid: 0ac59b3adc413e04ebacfe6884e267d2, type: 3}
+      propertyPath: coin
+      value: 
+      objectReference: {fileID: 8300000, guid: 4f1aacec47f1d444992979a739157715, type: 3}
     - target: {fileID: 2892373175567725950, guid: 0ac59b3adc413e04ebacfe6884e267d2, type: 3}
       propertyPath: m_Name
       value: BGM

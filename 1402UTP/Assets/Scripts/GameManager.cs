@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] float loadDelay = 0.01f;
+    [SerializeField] float loadDelay = 60f;
     [SerializeField] float maxFallDistance = -4.0f;
     [SerializeField] float distanceFromFlag = 0.5f;
     [SerializeField] int LevelSelect = 0;
@@ -17,9 +17,13 @@ public class GameManager : MonoBehaviour
     public Transform StartPoint;
     public Transform checkpoint;
     public Transform finishLine;
+    AudioManager sfx;
+    
 
     private Vector3 initialPlayerPosition;
     private bool checkpointReached = false;
+    private bool cp_sfxplay = false;
+    private bool finish_sfxplay = false;
 
     void Start()
     {
@@ -37,6 +41,10 @@ public class GameManager : MonoBehaviour
         initialPlayerPosition = player.transform.position;
         pc = player.GetComponent<PlayerController>();
 
+    }
+    private void Awake()
+    {
+        sfx = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     void Update()
@@ -65,6 +73,7 @@ public class GameManager : MonoBehaviour
         //player.GetComponent<PlayerInputController>().enabled = true;
         pc.enabled = true;
         pc.isDead = false;
+        sfx.PlaySFX(sfx.portal);
         // Reset player position to the initial position or the last checkpoint if reached
         if (checkpointReached)
         {
@@ -84,14 +93,32 @@ public class GameManager : MonoBehaviour
         {
             checkpointReached = true;
             Debug.Log("Checkpoint reached. Checkpoint spawn point updated to: " + checkpoint.position);
+            if (cp_sfxplay == false)
+               {
+                sfx.PlaySFX(sfx.checkpoint);
+                cp_sfxplay = true;
+                }
+        }
+        if (Vector3.Distance(player.transform.position, checkpoint.position) > distanceFromFlag)
+        {
+            cp_sfxplay = false;
         }
 
-        // Check if the player is close to the finish line
-        if (Vector3.Distance(player.transform.position, finishLine.position) < distanceFromFlag)
+            // Check if the player is close to the finish line
+            if (Vector3.Distance(player.transform.position, finishLine.position) < distanceFromFlag)
         {
             // Call NextScene function after the specified load delay
+            if (finish_sfxplay == false)
+            {
+                sfx.PlaySFX(sfx.portal);
+                finish_sfxplay = true;
+            }
             Debug.Log("Finish line reached. Loading next scene...");
             Invoke("NextScene", loadDelay);
+        }
+        if (Vector3.Distance(player.transform.position, finishLine.position) > distanceFromFlag)
+        {
+            finish_sfxplay = false;
         }
     }
 
