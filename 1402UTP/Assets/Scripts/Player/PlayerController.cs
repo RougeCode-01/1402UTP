@@ -252,6 +252,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             isDashing = true;
+            sfx.PlaySFX(sfx.dash);
             StartCoroutine(Dashtrail());
             moveSpeed = Mathf.Clamp(moveSpeed * 2, moveSpeed, moveSpeedDefault * 2);
             Invoke("DashSpeedReset", 0.5f);
@@ -261,6 +262,7 @@ public class PlayerController : MonoBehaviour
         else if (!isGrounded && airActions > 0)
         {
             isDashing = true;
+            sfx.PlaySFX(sfx.dash);
             StartCoroutine(Dashtrail());
             moveSpeed = Mathf.Clamp(moveSpeed * 2, moveSpeed, moveSpeedDefault * 2);
             airDashFlag = true;
