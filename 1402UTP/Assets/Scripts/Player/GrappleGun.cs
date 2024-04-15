@@ -6,11 +6,13 @@ public class GrappleGun : MonoBehaviour
     public float retractSpeed = 30f; // Speed to retract the player
     public LayerMask grappleMask; // Layer mask to filter what the grapple can attach to
     public LineRenderer ropeRenderer; // Reference to the Line Renderer component
+    public float grappleCooldown = 2f; // Cooldown time between consecutive grapples
 
     private Rigidbody2D rb;
     private SpringJoint2D joint;
     private Vector2 grapplePoint;
     private bool isGrappling = false;
+    private bool isCooldown = false;
 
     void Start()
     {
@@ -42,11 +44,22 @@ public class GrappleGun : MonoBehaviour
         {
             ropeRenderer.enabled = false; // Hide the rope when not grappling
         }
+
+        // Update cooldown
+        if (isCooldown)
+        {
+            grappleCooldown -= Time.deltaTime;
+            if (grappleCooldown <= 0)
+            {
+                isCooldown = false;
+                grappleCooldown = 2f; // Reset cooldown time
+            }
+        }
     }
 
-    public void StartOrStopGrapple() // Renamed method to reflect its purpose
+    public void StartOrStopGrapple()
     {
-        if (!isGrappling)
+        if (!isGrappling && !isCooldown)
         {
             StartGrapple();
         }
@@ -56,7 +69,7 @@ public class GrappleGun : MonoBehaviour
         }
     }
 
-    public void StartGrapple() // Made public
+    public void StartGrapple()
     {
         // Shoot a raycast to find a surface to grapple onto
         RaycastHit2D hit = Physics2D.Raycast(rb.position, Vector2.up, Mathf.Infinity, grappleMask);
@@ -73,13 +86,17 @@ public class GrappleGun : MonoBehaviour
             joint.frequency = 1f; // Set the frequency of the spring (controls elasticity)
             joint.dampingRatio = 0.5f; // Set the damping ratio (controls damping)
             isGrappling = true; // Set grappling state to true
+            isCooldown = true; // Start cooldown
         }
     }
 
-    public void StopGrapple() // Made public
+    public void StopGrapple()
     {
         // Remove the SpringJoint2D component to stop grappling
-        Destroy(joint);
-        isGrappling = false; // Set grappling state to false
+        if (joint != null)
+        {
+            Destroy(joint);
+            isGrappling = false; // Set grappling state to false
+        }
     }
 }

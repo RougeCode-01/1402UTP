@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections;
 
 public class WallMine : Enemy
 {
@@ -14,109 +12,119 @@ public class WallMine : Enemy
     public Animator anim;
     public float speed = 2f;
     private Transform currentTarget;
-    public float detonateRadius = 1.5f; // Radius for detecting player proximity
-    public float detonateDelay = 1.5f; // Delay before detonation after detecting player
-    public LayerMask playerLayer; // Layer mask for the player
-    public string playerTag = "Player"; // Tag of the player object
-    public float colWidth, colHight;
+    public float detonateRadius = 1.5f;
+    public float detonateDelay = 1.5f;
+    public LayerMask playerLayer;
+    public string playerTag = "Player";
+    public GameObject objectToDeactivate;
 
-    private bool isActive = true;
+    public Color activeColor = Color.white;
+    public Color inactiveColor = Color.red;
+
+    private SpriteRenderer spriteRenderer;
+    private bool isPulsing = false;
+
+    public bool isActive = true;
 
     void Start()
     {
-        ps = GetComponent<ParticleSystem>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.color = activeColor;
         col = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sp = GetComponent<SpriteRenderer>();
-        currentTarget = pointB.transform; // Moves to Point B at first
+        ps = GetComponentInChildren<ParticleSystem>(); // Assuming ParticleSystem is a child object
+        currentTarget = pointB.transform;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        DetonateIfPlayerClose();
-        MoveBetweenPoints();
+        if (isActive)
+        {
+            DetonateIfPlayerClose();
+            MoveBetweenPoints();
+        }
+        else
+        {
+            StartCoroutine(ReactivateAfterDelay(5f));
+        }
     }
 
     void MoveBetweenPoints()
     {
-        Vector2 point = currentTarget.position - transform.position;
-        if (currentTarget == pointB.transform)
-        {
-            rb.velocity = new Vector2(0, -speed);
-        }
-        else
-        {
-            rb.velocity = new Vector2(0, speed);
-        }
+        Vector2 direction = (currentTarget.position - transform.position).normalized;
+        rb.velocity = direction * speed;
 
-        // Check if close to the target point
-        if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f && currentTarget == pointB.transform)
+        if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f)
         {
-            currentTarget = pointA.transform;
-        }
-        // Check if close to the target point
-       if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f && currentTarget == pointA.transform)
-        {
-    
-            currentTarget = pointB.transform;
+            currentTarget = (currentTarget == pointA.transform) ? pointB.transform : pointA.transform;
         }
     }
 
     void DetonateIfPlayerClose()
     {
-        Debug.Log("Mine enemy is checking for player...");
-
-        // Perform a circle cast around the mine to detect the player
-        RaycastHit2D hit = Physics2D.CircleCast(transform.position, detonateRadius, Vector2.zero, 0f, playerLayer);
-
-        if (hit.collider != null)
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detonateRadius, playerLayer);
+        foreach (Collider2D collider in colliders)
         {
-            Debug.DrawRay(transform.position, (hit.point - (Vector2)transform.position), Color.red);
-        }
-
-        if (hit.collider != null && hit.collider.CompareTag(playerTag))
-        {
-            // Player detected, start detonation countdown
-            StartCoroutine(DetonateAfterDelay());
-            Debug.Log("Player detected by mine!");
-        }
-        else
-        {
-            Debug.Log("Player not detected by mine enemy.");
+            if (collider.CompareTag(playerTag))
+            {
+                StartCoroutine(DetonateAfterDelay());
+                break; // Exit loop after one detonation
+            }
         }
     }
 
-    //start countdown and once its done do damage/destroy self
     IEnumerator DetonateAfterDelay()
     {
         float remainingTime = detonateDelay;
         while (remainingTime > 0)
         {
-            Debug.Log("Detonation Countdown: " + remainingTime.ToString("F1"));
-            yield return new WaitForSeconds(0.1f);
+            // Pulse effect: toggle between active and inactive colors
+            if (!isPulsing)
+            {
+                spriteRenderer.color = inactiveColor;
+            }
+            else
+            {
+                spriteRenderer.color = activeColor;
+            }
+            isPulsing = !isPulsing;
+
+            yield return new WaitForSecondsRealtime(0.1f);
             remainingTime -= 0.1f;
         }
-
+        // Set sprite color back to active after countdown
+        spriteRenderer.color = activeColor;
         Debug.Log("Detonation!");
         col.edgeRadius = 3;
-        //ps.Play();
-        Invoke("Deactivate", 2.0f);
+        ps.Play();
+        Invoke("Deactivate", 1.5f);
     }
+
     void Deactivate()
     {
-        gameObject.SetActive(false);
+        if (objectToDeactivate != null)
+        {
+            objectToDeactivate.SetActive(false);
+        }
         isActive = false;
+        Debug.Log("WallMine deactivated. isActive: " + isActive);
     }
 
-    void Activate()
+    void Reactivate()
     {
-        gameObject.SetActive(true);
+        if (objectToDeactivate != null)
+        {
+            objectToDeactivate.SetActive(true);
+        }
         isActive = true;
+        Debug.Log("WallMine reactivated. isActive: " + isActive);
     }
 
-    private void Flip()
+    IEnumerator ReactivateAfterDelay(float delay)
     {
-        sp.flipY = !sp.flipY;
+        yield return new WaitForSecondsRealtime(delay);
+        Reactivate();
     }
 }
