@@ -138,6 +138,7 @@ public class WallMine : Enemy
 
         // Disable movement
         isMovementEnabled = false;
+        rb.velocity = Vector2.zero;
 
         isActive = false;
         Debug.Log("WallMine deactivated. isActive: " + isActive);
