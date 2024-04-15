@@ -116,7 +116,7 @@ public class WallMine : Enemy
         // Set sprite color back to active after countdown
         spriteRenderer.color = activeColor;
         Debug.Log("Detonation!");
-        col.edgeRadius = 3;
+        col.edgeRadius = 2;//should add a variable
         ps.Play();
         Invoke("Deactivate", deactivateDelay);
     }
