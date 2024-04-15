@@ -15,11 +15,12 @@ public class PlayerController : MonoBehaviour
     GameManager gm;
     ParticleSystem ps;
     AudioManager sfx;
+    Animator anim;
 
     #region Serialized Fields
     [SerializeField]
-    int moveSpeed = 500;
-    int moveSpeedDefault;
+    float moveSpeed = 15f;
+    float moveSpeedDefault;
     [SerializeField]
     float moveSmoothness = 0.5f;
     [SerializeField]
@@ -83,6 +84,7 @@ public class PlayerController : MonoBehaviour
         tr = GetComponent<TrailRenderer>(); // added trail renderer
         gm = FindObjectOfType<GameManager>();
         ps = GetComponent<ParticleSystem>();
+        anim = GetComponent<Animator>();
         sfx = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         defaultJumpForce = jumpForce;
         playerGravityDefault = playerGravity;
@@ -110,7 +112,31 @@ public class PlayerController : MonoBehaviour
         }
         //Debug.Log("ISGROUNDED = " + isGrounded);
         UpdatePlayerDirection();
+        UpdatePlayerAnimation();
         directionMultiplier = facingDirection ? 1f : -1f; //float multiplier based on player's facing direction - used for walljump/dash thrusts
+    }
+
+    private void UpdatePlayerAnimation()
+    {
+        if (isDashing) //the order here is important. dashing is checked first since the player can do it regardless of grounded state
+        {
+            anim.Play("p_anim_dash");
+            return;
+        }
+        if (!isGrounded)
+        {
+            if (rb.velocity.y > 0f) //check if the player is falling or not
+                anim.Play("p_anim_jump");
+            else
+                anim.Play("p_anim_fall");
+        }
+        else
+        {
+            if (HorizontalMovement() > 0.5f || HorizontalMovement() < -0.5f)
+                anim.Play("p_anim_run");
+            else
+                anim.Play("p_anim_idle");
+        }
     }
 
     public void UpdatePlayerDirection()
@@ -179,6 +205,11 @@ public class PlayerController : MonoBehaviour
         isJumping = true; // Update jumping status
         airActions = maxAirActions;
         playerGravity = playerGravityDefault;
+        if (isDashing) //lets player walljump out of an airdash
+        {
+            isDashing = false;
+            moveSpeed = moveSpeedDefault * 1.5f; //full dash speed from a walljump is a bit too much, but a speed boost is still fun to have
+        }
     }
 
     public void JumpCancel()
@@ -222,7 +253,7 @@ public class PlayerController : MonoBehaviour
         {
             isDashing = true;
             StartCoroutine(Dashtrail());
-            moveSpeed = Math.Clamp(moveSpeed * 2, moveSpeed, moveSpeedDefault * 2);
+            moveSpeed = Mathf.Clamp(moveSpeed * 2, moveSpeed, moveSpeedDefault * 2);
             Invoke("DashSpeedReset", 0.5f);
             Vector2 dashVector = new Vector2((dashForce * 2 / 3) * directionMultiplier, 0f);
             rb.AddForce(dashVector, ForceMode2D.Impulse);
@@ -231,7 +262,7 @@ public class PlayerController : MonoBehaviour
         {
             isDashing = true;
             StartCoroutine(Dashtrail());
-            moveSpeed = Math.Clamp(moveSpeed * 2, moveSpeed, moveSpeedDefault * 2);
+            moveSpeed = Mathf.Clamp(moveSpeed * 2, moveSpeed, moveSpeedDefault * 2);
             airDashFlag = true;
             Vector2 dashVector = new Vector2(dashForce * directionMultiplier, 10f);
             rb.AddForce(dashVector, ForceMode2D.Impulse);
@@ -252,7 +283,15 @@ public class PlayerController : MonoBehaviour
 
     private float VerticalMovement()
     {
+
         float jumpVelocity = rb.velocity.y;
+
+        if (!isJumping && isDashing) //sets velocity to 0 if doing an airdash
+        {
+            jumpVelocity = 0f;
+            return jumpVelocity;
+        }
+
         if (jumpVelocity < 0.2f)
         {
             jumpVelocity += Physics2D.gravity.y * (fallMultiplier) * Time.fixedDeltaTime;
