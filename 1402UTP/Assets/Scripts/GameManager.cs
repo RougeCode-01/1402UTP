@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] float loadDelay = 999999999999999999999999999999f;
+    [SerializeField] float loadDelay = 60f;
     [SerializeField] float maxFallDistance = -4.0f;
     [SerializeField] float distanceFromFlag = 0.5f;
     [SerializeField] int LevelSelect = 0;
