@@ -3,28 +3,39 @@ using System.Collections;
 
 public class WallMine : Enemy
 {
+    [Header("Movement Settings")]
     public GameObject pointA;
     public GameObject pointB;
-    public BoxCollider2D col;
-    public Rigidbody2D rb;
-    public SpriteRenderer sp;
-    public ParticleSystem ps;
-    public Animator anim;
     public float speed = 2f;
-    private Transform currentTarget;
+
+    [Header("Detonation Settings")]
     public float detonateRadius = 1.5f;
     public float detonateDelay = 1.5f;
+    public float reactivateDelay = 5f;
+    public float deactivateDelay = 0.5f;
     public LayerMask playerLayer;
     public string playerTag = "Player";
-    public GameObject objectToDeactivate;
 
+    [Header("Appearance Settings")]
     public Color activeColor = Color.white;
     public Color inactiveColor = Color.red;
+
+    private Transform currentTarget;
+    private float originalColliderRadius;
 
     private SpriteRenderer spriteRenderer;
     private bool isPulsing = false;
 
+    private bool isMovementEnabled = true; // New boolean variable to track movement state
+
     public bool isActive = true;
+
+    [Header("Components")]
+    private BoxCollider2D col;
+    private Rigidbody2D rb;
+    private SpriteRenderer sp;
+    private ParticleSystem ps;
+    private Animator anim;
 
     void Start()
     {
@@ -34,8 +45,9 @@ public class WallMine : Enemy
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sp = GetComponent<SpriteRenderer>();
-        ps = GetComponentInChildren<ParticleSystem>(); // Assuming ParticleSystem is a child object
+        ps = GetComponentInChildren<ParticleSystem>(); 
         currentTarget = pointB.transform;
+        originalColliderRadius = col.edgeRadius; // Store original collider radius
     }
 
     void FixedUpdate()
@@ -47,18 +59,25 @@ public class WallMine : Enemy
         }
         else
         {
-            StartCoroutine(ReactivateAfterDelay(5f));
+            StartCoroutine(ReactivateAfterDelay(reactivateDelay));
         }
     }
 
     void MoveBetweenPoints()
     {
-        Vector2 direction = (currentTarget.position - transform.position).normalized;
-        rb.velocity = direction * speed;
-
-        if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f)
+        if (isMovementEnabled)
         {
-            currentTarget = (currentTarget == pointA.transform) ? pointB.transform : pointA.transform;
+            Vector2 direction = (currentTarget.position - transform.position).normalized;
+            rb.velocity = direction * speed;
+
+            if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f)
+            {
+                currentTarget = (currentTarget == pointA.transform) ? pointB.transform : pointA.transform;
+            }
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
         }
     }
 
@@ -99,25 +118,56 @@ public class WallMine : Enemy
         Debug.Log("Detonation!");
         col.edgeRadius = 3;
         ps.Play();
-        Invoke("Deactivate", 1.5f);
+        Invoke("Deactivate", deactivateDelay);
     }
 
     void Deactivate()
     {
-        if (objectToDeactivate != null)
+        // Deactivate renderer
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
         {
-            objectToDeactivate.SetActive(false);
+            renderer.enabled = false;
         }
+
+        // Deactivate collider
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        // Disable movement
+        isMovementEnabled = false;
+
         isActive = false;
         Debug.Log("WallMine deactivated. isActive: " + isActive);
     }
 
     void Reactivate()
     {
-        if (objectToDeactivate != null)
+        // Reactivate renderer
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
         {
-            objectToDeactivate.SetActive(true);
+            renderer.enabled = true;
         }
+
+        // Reactivate collider
+        if (col != null)
+        {
+            col.enabled = true;
+            col.edgeRadius = originalColliderRadius; // Reset collider radius
+        }
+
+        // Enable movement
+        isMovementEnabled = true;
+
+        // Stop particle system
+        if (ps != null)
+        {
+            ps.Stop();
+        }
+
         isActive = true;
         Debug.Log("WallMine reactivated. isActive: " + isActive);
     }
