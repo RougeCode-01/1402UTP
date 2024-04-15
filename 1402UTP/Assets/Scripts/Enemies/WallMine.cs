@@ -67,17 +67,16 @@ public class WallMine : Enemy
     {
         if (isMovementEnabled)
         {
-            Vector2 direction = (currentTarget.position - transform.position).normalized;
-            rb.velocity = direction * speed;
+            Debug.Log("Current Position: " + transform.position);
+            Debug.Log("Target Position: " + currentTarget.position);
+
+            transform.position = Vector2.MoveTowards(transform.position, currentTarget.position, speed * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f)
             {
                 currentTarget = (currentTarget == pointA.transform) ? pointB.transform : pointA.transform;
+                Debug.Log("Switched target.");
             }
-        }
-        else
-        {
-            rb.velocity = Vector2.zero;
         }
     }
 
