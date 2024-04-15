@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class WallMine : Enemy
+public class Mine : Enemy
 {
     [Header("Movement Settings")]
     public GameObject pointA;
@@ -45,7 +45,7 @@ public class WallMine : Enemy
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sp = GetComponent<SpriteRenderer>();
-        ps = GetComponentInChildren<ParticleSystem>(); 
+        ps = GetComponentInChildren<ParticleSystem>();
         currentTarget = pointB.transform;
         originalColliderRadius = col.edgeRadius; // Store original collider radius
     }
@@ -67,16 +67,23 @@ public class WallMine : Enemy
     {
         if (isMovementEnabled)
         {
-            Debug.Log("Current Position: " + transform.position);
-            Debug.Log("Target Position: " + currentTarget.position);
+            // Calculate direction based on the difference between the current position and the target position
+            Vector2 direction = (currentTarget.position - transform.position).normalized;
 
-            transform.position = Vector2.MoveTowards(transform.position, currentTarget.position, speed * Time.deltaTime);
+            // Set the velocity to move horizontally
+            rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
 
-            if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f)
+            // Check if the current position is close to the target position
+            if (Mathf.Abs(transform.position.x - currentTarget.position.x) < 0.5f)
             {
+                // If close, switch to the other target
                 currentTarget = (currentTarget == pointA.transform) ? pointB.transform : pointA.transform;
-                Debug.Log("Switched target.");
             }
+        }
+        else
+        {
+            // Stop movement
+            rb.velocity = Vector2.zero;
         }
     }
 
