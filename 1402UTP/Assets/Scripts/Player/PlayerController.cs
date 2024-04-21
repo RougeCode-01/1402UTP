@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float rateOfGravityChange = 0.05f;
     [SerializeField]
-    float trailFXDelay = 2;
+    float trailFXDelay = 2.5f;
     [SerializeField]
     float maxFallVelocity = -20f; // Maximum fall velocity
     [SerializeField]

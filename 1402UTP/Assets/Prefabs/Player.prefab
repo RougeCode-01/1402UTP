@@ -164,7 +164,7 @@ MonoBehaviour:
   fallMultiplier: 3
   playerGravity: 1
   rateOfGravityChange: 0.15
-  trailFXDelay: 2
+  trailFXDelay: 2.5
   maxFallVelocity: -30
   accelerationRate: 50
   isDead: 0
@@ -198,6 +198,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   ropeRenderer: {fileID: 1506652317}
+  grappleCooldown: 2
 --- !u!120 &1506652317
 LineRenderer:
   m_ObjectHideFlags: 0
