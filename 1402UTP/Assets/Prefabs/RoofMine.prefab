@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7335810670029501157}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RoofMine
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7335810670242004461}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PointA
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -74,7 +74,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7335810671507406635}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PointB
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 5651470838727568219}
   - component: {fileID: 3871244096727731420}
   - component: {fileID: 2102452378241084826}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HorizontalEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 123313199653980563}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PointA
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 123313199840069275}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WallRightMine
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 3032644982753238821}
   - component: {fileID: 5891125841378523298}
   - component: {fileID: 8743027360364321252}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HorizontalEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -5015,7 +5015,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 123313200778349397}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PointB
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
