@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource sfxSource;
 
     [Header("--Audio Clips--")]
-    [SerializeField] public AudioClip bgm; public AudioClip die; public AudioClip land; public AudioClip dash; public AudioClip checkpoint; public AudioClip portal; public AudioClip shoot; public AudioClip coin;
+    [SerializeField] public AudioClip bgm; public AudioClip die; public AudioClip land; public AudioClip dash; public AudioClip checkpoint; public AudioClip portal; public AudioClip shoot; public AudioClip coin; public AudioClip mainmenu;
 
     public static AudioManager instance;
 
