@@ -102,6 +102,9 @@ public class Mine : Enemy
 
     IEnumerator DetonateAfterDelay()
     {
+        // Disable collider
+        col.enabled = false;
+
         float remainingTime = detonateDelay;
         while (remainingTime > 0)
         {
@@ -119,16 +122,27 @@ public class Mine : Enemy
             yield return new WaitForSecondsRealtime(0.1f);
             remainingTime -= 0.1f;
         }
+
         // Set sprite color back to active after countdown
         spriteRenderer.color = activeColor;
         Debug.Log("Detonation!");
-        col.edgeRadius = 2;//should add a variable
+
+        // Enable collider
+        col.enabled = true;
+
+        // Play particle system
         ps.Play();
+
+        // Deactivate after delay
         Invoke("Deactivate", deactivateDelay);
     }
 
     void Deactivate()
     {
+        // Stop movement completely
+        isMovementEnabled = false;
+        rb.velocity = Vector2.zero;
+
         // Deactivate renderer
         Renderer renderer = GetComponent<Renderer>();
         if (renderer != null)
@@ -142,16 +156,19 @@ public class Mine : Enemy
             col.enabled = false;
         }
 
-        // Disable movement
-        isMovementEnabled = false;
-        rb.velocity = Vector2.zero;
-
         isActive = false;
         Debug.Log("WallMine deactivated. isActive: " + isActive);
     }
 
+
     void Reactivate()
     {
+        // Reset position
+        transform.position = pointA.transform.position; 
+
+        // Reset velocity
+        rb.velocity = Vector2.zero;
+
         // Reactivate renderer
         Renderer renderer = GetComponent<Renderer>();
         if (renderer != null)
@@ -178,6 +195,7 @@ public class Mine : Enemy
         isActive = true;
         Debug.Log("WallMine reactivated. isActive: " + isActive);
     }
+
 
     IEnumerator ReactivateAfterDelay(float delay)
     {
