@@ -141,6 +141,8 @@ public class PlayerController : MonoBehaviour
 
     public void UpdatePlayerDirection()
     {
+        if (isDashing && !isGrounded)
+            return;
         if (!facingDirection) //if player is not facing right then flip, otherwise don't
             sp.flipX = true;
         else
@@ -158,16 +160,21 @@ public class PlayerController : MonoBehaviour
 
     private float HorizontalMovement()
     {
+        float acceleration = movementInput.x / rb.velocity.x >= 0 ? accelerationRate : accelerationRate * 10;
+        float velocity = rb.velocity.x + movementInput.x * Time.fixedDeltaTime * acceleration;
+        if (isDashing && !isGrounded)
+        {
+            velocity = rb.velocity.x;
+            return velocity;
+        }
         if (movementInput.x == 0 && !isDead)
         {
             return Mathf.Lerp(rb.velocity.x, movementInput.x, moveSmoothness);
         }
-        float acceleration = movementInput.x / rb.velocity.x >= 0 ? accelerationRate : accelerationRate * 10;
         if (!isGrounded && !isDead)
         {
             acceleration /= 2f;
         }
-        float velocity = rb.velocity.x + movementInput.x * Time.fixedDeltaTime * acceleration;
         Mathf.Clamp(velocity, -moveSpeed, moveSpeed);
         return velocity;
     }
