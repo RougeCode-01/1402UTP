@@ -12,6 +12,7 @@ TagManager:
   - StartPoint
   - Audio
   - Bar
+  - CheckpointIndicator
   layers:
   - Default
   - TransparentFX
