@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Cade/Buildings.unity
     guid: 4c4ac1cc5df7f864981253dc12859838
+  - enabled: 1
+    path: Assets/Scenes/Garan/FinalScene.unity
+    guid: 93c90f9d852cc5744a57d3a44ed56c17
   m_configObjects: {}
