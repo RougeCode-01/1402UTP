@@ -444,7 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmSource: {fileID: 207534781}
   sfxSource: {fileID: 0}
-  bgm: {fileID: 8300000, guid: 0d62f55bbacfd64429f425cab4003247, type: 3}
+  bgm: {fileID: 8300000, guid: bc61187a311d5f2419faf346a9c12ded, type: 3}
   die: {fileID: 0}
   land: {fileID: 0}
   dash: {fileID: 0}
@@ -467,7 +467,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.504
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -4089,8 +4089,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0, g: 0.5137255, b: 0.8588236, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.86666673, g: 0.21960786, b: 0, a: 1}
+    m_PressedColor: {r: 0.35686275, g: 0, b: 0.1764706, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
