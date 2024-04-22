@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     {
         sfx = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         obj_finishLine = GameObject.FindGameObjectWithTag("FinishLine");
+        checkpointReached = false;
     }
 
     void Update()
@@ -92,9 +93,8 @@ public class GameManager : MonoBehaviour
     private void CheckForCollisions()
     {
         // Check if the player is close to the checkpoint
-        if (Vector3.Distance(player.transform.position, checkpoint.position) < distanceFromFlag)
+        if (Vector3.Distance(player.transform.position, checkpoint.position) < distanceFromFlag && (checkpointReached == false))
         {
-            checkpointReached = true;
             checkpointFlash.CallCheckpointFlash();
             Debug.Log("Checkpoint reached. Checkpoint spawn point updated to: " + checkpoint.position);
             if (cp_sfxplay == false)
@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
                 sfx.PlaySFX(sfx.checkpoint);
                 cp_sfxplay = true;
                 }
+            checkpointReached = true;
         }
         if (Vector3.Distance(player.transform.position, checkpoint.position) > distanceFromFlag)
         {
