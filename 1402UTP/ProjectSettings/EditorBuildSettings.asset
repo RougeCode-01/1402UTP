@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Garan/Garan_Level2.unity
     guid: 9051c9bcc99a1de4f8b8fe1f55a8c381
+  - enabled: 1
+    path: Assets/Scenes/Cade/Buildings.unity
+    guid: 4c4ac1cc5df7f864981253dc12859838
   m_configObjects: {}
