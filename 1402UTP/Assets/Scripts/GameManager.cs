@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject obj_finishLine;
     public CheckpointFlash checkpointFlash;
     PlayerController pc;
+    public Deaths deathCount;
     public Transform StartPoint;
     public Transform checkpoint;
     public Transform finishLine;
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour
 
         public void RespawnPlayer()
     {
+        deathCount.IncreaseDeaths();
         // Reset player position to the initial position
         // yandev.jpg
         player.transform.position = initialPlayerPosition;
@@ -94,6 +96,7 @@ public class GameManager : MonoBehaviour
         {
             projectile.KillSelf();
         }
+        
     }
 
     private void CheckForCollisions()
@@ -140,5 +143,6 @@ public class GameManager : MonoBehaviour
         LevelSelect++;
         SceneManager.LoadScene(LevelSelect); // Reloads the same scene for now
         Collectible.totalcoin = 0;
+        deathCount.ResetDeaths();
     }
 }
