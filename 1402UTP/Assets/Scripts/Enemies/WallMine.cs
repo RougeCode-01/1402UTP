@@ -26,8 +26,6 @@ public class WallMine : Enemy
     private SpriteRenderer spriteRenderer;
     private bool isPulsing = false;
 
-    private bool isMovementEnabled = true; // New boolean variable to track movement state
-
     public bool isActive = true;
 
     [Header("Components")]
@@ -52,21 +50,12 @@ public class WallMine : Enemy
 
     void FixedUpdate()
     {
-        if (isActive)
-        {
-            DetonateIfPlayerClose();
-            MoveBetweenPoints();
-        }
-        else
-        {
-            StartCoroutine(ReactivateAfterDelay(reactivateDelay));
-        }
+          DetonateIfPlayerClose();
+          MoveBetweenPoints();
     }
 
     void MoveBetweenPoints()
     {
-        if (isMovementEnabled)
-        {
             Debug.Log("Current Position: " + transform.position);
             Debug.Log("Target Position: " + currentTarget.position);
 
@@ -77,7 +66,6 @@ public class WallMine : Enemy
                 currentTarget = (currentTarget == pointA.transform) ? pointB.transform : pointA.transform;
                 Debug.Log("Switched target.");
             }
-        }
     }
 
     void DetonateIfPlayerClose()
@@ -122,59 +110,26 @@ public class WallMine : Enemy
 
     void Deactivate()
     {
-        // Deactivate renderer
-        Renderer renderer = GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            renderer.enabled = false;
-        }
+        gameObject.SetActive(false);
+    }
 
-        // Deactivate collider
-        if (col != null)
-        {
-            col.enabled = false;
-        }
+    public void Reactivate()
+    {
+       gameObject.SetActive(true);
+        // Reset position
+        transform.position = pointA.transform.position;
 
-        // Disable movement
-        isMovementEnabled = false;
+        // Reset velocity
         rb.velocity = Vector2.zero;
 
-        isActive = false;
-        Debug.Log("WallMine deactivated. isActive: " + isActive);
-    }
-
-    void Reactivate()
-    {
-        // Reactivate renderer
-        Renderer renderer = GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            renderer.enabled = true;
-        }
-
         // Reactivate collider
-        if (col != null)
-        {
-            col.enabled = true;
-            col.edgeRadius = originalColliderRadius; // Reset collider radius
-        }
+        col.enabled = true;
+        col.edgeRadius = originalColliderRadius;
 
-        // Enable movement
-        isMovementEnabled = true;
+        // Reset sprite color
+        spriteRenderer.color = activeColor;
 
         // Stop particle system
-        if (ps != null)
-        {
-            ps.Stop();
-        }
-
-        isActive = true;
-        Debug.Log("WallMine reactivated. isActive: " + isActive);
-    }
-
-    IEnumerator ReactivateAfterDelay(float delay)
-    {
-        yield return new WaitForSecondsRealtime(delay);
-        Reactivate();
+        ps.Stop();
     }
 }

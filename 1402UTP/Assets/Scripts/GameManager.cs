@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] float maxFallDistance = -6.0f;
     [SerializeField] float distanceFromFlag = 1f;
     [SerializeField] int LevelSelect = 0;
+    [SerializeField] GameObject[] mines; // Array to hold all WallMine objects
 
     public GameObject player; // Reference to the player GameObject
     public GameObject obj_finishLine;
@@ -20,7 +17,6 @@ public class GameManager : MonoBehaviour
     public Transform checkpoint;
     public Transform finishLine;
     AudioManager sfx;
-    
 
     private Vector3 initialPlayerPosition;
     private bool checkpointReached = false;
@@ -44,6 +40,7 @@ public class GameManager : MonoBehaviour
         pc = player.GetComponent<PlayerController>();
 
     }
+
     private void Awake()
     {
         sfx = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -53,18 +50,15 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // Check if the player's Y position is below the maximum fall distance
         if (player.transform.position.y < maxFallDistance)
         {
-            RespawnPlayer(); // Respawn the player
+            RespawnPlayer();
         }
 
-        // Check for checkpoint and finish line collisions
         CheckForCollisions();
     }
 
-    // Respawn the player
-    public void RespawnPlayer()
+        public void RespawnPlayer()
     {
         // Reset player position to the initial position
         // yandev.jpg
@@ -87,9 +81,14 @@ public class GameManager : MonoBehaviour
         {
             player.transform.position = initialPlayerPosition;
         }
+
+        // Respawning the WallMine objects
+        foreach (GameObject wallMine in mines)
+        {
+            wallMine.GetComponent<WallMine>().Reactivate(); // Reactivate each WallMine
+        }
     }
 
-    // Check for collisions with checkpoint and finish line
     private void CheckForCollisions()
     {
         // Check if the player is close to the checkpoint
@@ -98,7 +97,7 @@ public class GameManager : MonoBehaviour
             checkpointFlash.CallCheckpointFlash();
             Debug.Log("Checkpoint reached. Checkpoint spawn point updated to: " + checkpoint.position);
             if (cp_sfxplay == false)
-               {
+            {
                 sfx.PlaySFX(sfx.checkpoint);
                 cp_sfxplay = true;
                 }
@@ -109,8 +108,8 @@ public class GameManager : MonoBehaviour
             cp_sfxplay = false;
         }
 
-            // Check if the player is close to the finish line
-            if (Vector3.Distance(player.transform.position, finishLine.position) < distanceFromFlag)
+        // Check if the player is close to the finish line
+        if (Vector3.Distance(player.transform.position, finishLine.position) < distanceFromFlag)
         {
             Object.Destroy(obj_finishLine);
             checkpointFlash.CallFinishFlash();
