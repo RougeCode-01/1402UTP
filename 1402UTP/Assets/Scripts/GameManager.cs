@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     public Transform checkpoint;
     public Transform finishLine;
     AudioManager sfx;
+    EnemyProjectile[] projectiles;
 
     private Vector3 initialPlayerPosition;
     private bool checkpointReached = false;
@@ -86,6 +88,11 @@ public class GameManager : MonoBehaviour
         foreach (GameObject wallMine in mines)
         {
             wallMine.GetComponent<WallMine>().Reactivate(); // Reactivate each WallMine
+        }
+        projectiles = EnemyProjectile.FindObjectsOfType<EnemyProjectile>();
+        foreach(EnemyProjectile projectile in projectiles)
+        {
+            projectile.KillSelf();
         }
     }
 

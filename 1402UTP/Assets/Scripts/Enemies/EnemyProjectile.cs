@@ -28,7 +28,7 @@ public class EnemyProjectile : Enemy
         }
     }
 
-    private void KillSelf()
+    public void KillSelf()
     {
         Destroy(this.gameObject);
     }
