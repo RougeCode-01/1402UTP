@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     AudioManager sfx;
     Animator anim;
 
+    GrappleGun grappleGun;
+
     #region Serialized Fields
     [SerializeField]
     float moveSpeed = 15f;
@@ -86,6 +88,7 @@ public class PlayerController : MonoBehaviour
         ps = GetComponent<ParticleSystem>();
         anim = GetComponent<Animator>();
         sfx = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        grappleGun = GetComponent<GrappleGun>();
         defaultJumpForce = jumpForce;
         playerGravityDefault = playerGravity;
         moveSpeedDefault = moveSpeed;
@@ -265,6 +268,7 @@ public class PlayerController : MonoBehaviour
             Invoke("DashSpeedReset", 0.5f);
             Vector2 dashVector = new Vector2((dashForce * 2 / 3) * directionMultiplier, 0f);
             rb.AddForce(dashVector, ForceMode2D.Impulse);
+            grappleGun.StopGrapple();
         }
         else if (!isGrounded && airActions > 0)
         {
@@ -279,10 +283,11 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(JumpCanceler());
             airActions--;
             playerGravity = playerGravityDefault;
+            grappleGun.StopGrapple();
         }
     }
 
-    private void DashSpeedReset() 
+    private void DashSpeedReset()
     {
         if (airDashFlag) //this check is so that if the player does a grounded dash into an air dash, they don't have their speed reset.
             return;
@@ -367,12 +372,12 @@ public class PlayerController : MonoBehaviour
             gm.Invoke("RespawnPlayer", 0.1f);
         }
     }*/
-   private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<Enemy>())
         {
             sfx.PlaySFX(sfx.die);
-            rb.velocity = new Vector2(0,0);
+            rb.velocity = new Vector2(0, 0);
             rb.simulated = false;
             sp.enabled = false;
             tr.enabled = false;
