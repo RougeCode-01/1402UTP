@@ -118,7 +118,6 @@ public class GameManager : MonoBehaviour
         // Check if the player is close to the finish line
         if (Vector3.Distance(player.transform.position, finishLine.position) < distanceFromFlag)
         {
-            Object.Destroy(obj_finishLine);
             checkpointFlash.CallFinishFlash();
             // Call NextScene function after the specified load delay
             if (finish_sfxplay == false)
