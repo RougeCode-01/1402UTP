@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] float loadDelay = 60f;
     [SerializeField] float maxFallDistance = -6.0f;
     [SerializeField] float distanceFromFlag = 1f;
-    [SerializeField] int LevelSelect = 0;
+    [SerializeField] int LevelSelect = 1;
     [SerializeField] GameObject[] mines; // Array to hold all WallMine objects
 
     public GameObject player; // Reference to the player GameObject

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -365,13 +366,10 @@ public class PlayerController : MonoBehaviour
         // Return true if either side has a collider, indicating a wall contact
         return leftCollider != null || rightCollider != null;
     }
-    /*private void OnTriggerEnter2D(Collider2D other)
+    public void quitGame()
     {
-        if (other.tag == "Enemy")
-        {
-            gm.Invoke("RespawnPlayer", 0.1f);
-        }
-    }*/
+        SceneManager.LoadScene(0);
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<Enemy>())

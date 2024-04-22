@@ -32,6 +32,9 @@ public class PlayerInputController : MonoBehaviour
 
             //grapple input
             playerInput.PlayerActions.Grapple.performed += i => grappleGun.StartOrStopGrapple(); // Call method to start/stop grapple
+
+            //quit
+            playerInput.PlayerActions.Quit.performed += i => playerController.quitGame();
         }
         playerInput.Enable();
     }

@@ -7,6 +7,7 @@ public class WallMine : Enemy
     public GameObject pointA;
     public GameObject pointB;
     public float speed = 2f;
+    private float baseSpeed;
 
     [Header("Detonation Settings")]
     public float detonateRadius = 1.5f;
@@ -46,6 +47,7 @@ public class WallMine : Enemy
         ps = GetComponentInChildren<ParticleSystem>(); 
         currentTarget = pointB.transform;
         originalColliderRadius = col.edgeRadius; // Store original collider radius
+        baseSpeed = speed;
     }
 
     void FixedUpdate()
@@ -56,15 +58,11 @@ public class WallMine : Enemy
 
     void MoveBetweenPoints()
     {
-            Debug.Log("Current Position: " + transform.position);
-            Debug.Log("Target Position: " + currentTarget.position);
-
             transform.position = Vector2.MoveTowards(transform.position, currentTarget.position, speed * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, currentTarget.position) < 0.5f)
             {
                 currentTarget = (currentTarget == pointA.transform) ? pointB.transform : pointA.transform;
-                Debug.Log("Switched target.");
             }
     }
 
@@ -102,9 +100,9 @@ public class WallMine : Enemy
         }
         // Set sprite color back to active after countdown
         spriteRenderer.color = activeColor;
-        Debug.Log("Detonation!");
         col.edgeRadius = 2;//should add a variable
         ps.Play();
+        speed = 0;
         Invoke("Deactivate", deactivateDelay);
     }
 
@@ -121,6 +119,7 @@ public class WallMine : Enemy
 
         // Reset velocity
         rb.velocity = Vector2.zero;
+        speed = baseSpeed;
 
         // Reactivate collider
         col.enabled = true;
