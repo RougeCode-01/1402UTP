@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     private Vector3 initialPlayerPosition;
     private bool checkpointReached = false;
+    private bool finishReached = false;
     private bool cp_sfxplay = false;
     private bool finish_sfxplay = false;
 
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
         sfx = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         obj_finishLine = GameObject.FindGameObjectWithTag("FinishLine");
         checkpointReached = false;
+        finishReached = false;
     }
 
     void Update()
@@ -119,7 +121,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Check if the player is close to the finish line
-        if (Vector3.Distance(player.transform.position, finishLine.position) < distanceFromFlag)
+        if (Vector3.Distance(player.transform.position, finishLine.position) < distanceFromFlag && (finishReached == false))
         {
             checkpointFlash.CallFinishFlash();
             // Call NextScene function after the specified load delay
@@ -128,6 +130,7 @@ public class GameManager : MonoBehaviour
                 sfx.PlaySFX(sfx.portal);
                 finish_sfxplay = true;
             }
+            finishReached = true;
             Debug.Log("Finish line reached. Loading next scene...");
             Invoke("NextScene", loadDelay);
         }
