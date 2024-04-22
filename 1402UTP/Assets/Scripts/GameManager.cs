@@ -106,13 +106,14 @@ public class GameManager : MonoBehaviour
         // Check if the player is close to the checkpoint
         if (Vector3.Distance(player.transform.position, checkpoint.position) < distanceFromFlag && (checkpointReached == false))
         {
-            checkpointFlash.CallCheckpointFlash();
+            
             Debug.Log("Checkpoint reached. Checkpoint spawn point updated to: " + checkpoint.position);
             if (cp_sfxplay == false)
             {
                 sfx.PlaySFX(sfx.checkpoint);
                 cp_sfxplay = true;
-                }
+            }
+            checkpointFlash.CallCheckpointFlash();
             checkpointReached = true;
         }
         if (Vector3.Distance(player.transform.position, checkpoint.position) > distanceFromFlag)
@@ -131,6 +132,7 @@ public class GameManager : MonoBehaviour
                 finish_sfxplay = true;
             }
             finishReached = true;
+            checkpointFlash.CallFinishFlash();
             Debug.Log("Finish line reached. Loading next scene...");
             Invoke("NextScene", loadDelay);
         }
