@@ -46,7 +46,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.116
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -152,6 +152,7 @@ MonoBehaviour:
   portal: {fileID: 8300000, guid: 5f2cb9f70c076dc4cad259a74f8a8ece, type: 3}
   shoot: {fileID: 8300000, guid: 68abd402f8de70445aa104e55af061bf, type: 3}
   coin: {fileID: 8300000, guid: 4f1aacec47f1d444992979a739157715, type: 3}
+  mainmenu: {fileID: 0}
 --- !u!82 &2892373175567725923
 AudioSource:
   m_ObjectHideFlags: 0

@@ -46,9 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadDelay: 1
   maxFallDistance: -4
-  distanceFromFlag: 1.5
+  distanceFromFlag: 1
   LevelSelect: 0
-  player: {fileID: 0}
+  player: {fileID: 1790940352136905557, guid: 33025d04f23c2b8468f1c409237d388d, type: 3}
+  obj_finishLine: {fileID: 0}
+  checkpointFlash: {fileID: 4304674198417944070, guid: 97b48351df49317428b7c109ce54a280, type: 3}
   StartPoint: {fileID: 0}
   checkpoint: {fileID: 0}
   finishLine: {fileID: 0}

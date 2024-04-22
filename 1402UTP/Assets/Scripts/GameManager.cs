@@ -8,11 +8,13 @@ using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] float loadDelay = 60f;
-    [SerializeField] float maxFallDistance = -4.0f;
-    [SerializeField] float distanceFromFlag = 0.5f;
+    [SerializeField] float maxFallDistance = -6.0f;
+    [SerializeField] float distanceFromFlag = 1f;
     [SerializeField] int LevelSelect = 0;
 
     public GameObject player; // Reference to the player GameObject
+    public GameObject obj_finishLine;
+    public CheckpointFlash checkpointFlash;
     PlayerController pc;
     public Transform StartPoint;
     public Transform checkpoint;
@@ -45,6 +47,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         sfx = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        obj_finishLine = GameObject.FindGameObjectWithTag("FinishLine");
+        checkpointReached = false;
     }
 
     void Update()
@@ -89,15 +93,16 @@ public class GameManager : MonoBehaviour
     private void CheckForCollisions()
     {
         // Check if the player is close to the checkpoint
-        if (Vector3.Distance(player.transform.position, checkpoint.position) < distanceFromFlag)
+        if (Vector3.Distance(player.transform.position, checkpoint.position) < distanceFromFlag && (checkpointReached == false))
         {
-            checkpointReached = true;
+            checkpointFlash.CallCheckpointFlash();
             Debug.Log("Checkpoint reached. Checkpoint spawn point updated to: " + checkpoint.position);
             if (cp_sfxplay == false)
                {
                 sfx.PlaySFX(sfx.checkpoint);
                 cp_sfxplay = true;
                 }
+            checkpointReached = true;
         }
         if (Vector3.Distance(player.transform.position, checkpoint.position) > distanceFromFlag)
         {
@@ -107,6 +112,8 @@ public class GameManager : MonoBehaviour
             // Check if the player is close to the finish line
             if (Vector3.Distance(player.transform.position, finishLine.position) < distanceFromFlag)
         {
+            Object.Destroy(obj_finishLine);
+            checkpointFlash.CallFinishFlash();
             // Call NextScene function after the specified load delay
             if (finish_sfxplay == false)
             {
